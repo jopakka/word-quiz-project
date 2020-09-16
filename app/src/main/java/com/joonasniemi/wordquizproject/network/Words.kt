@@ -6,31 +6,32 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Word(
+    val id: Int,
+    val text: String,
+    val detail: String?,
     val lang: String,
-    @Json(name = "word") val text: String,
     val wiki: String,
     val imgUrl: String,
-    val translations: Set<Map<String, Map<String, Set<String>>>>
-
+    val translationIds: Set<Int>
 ): Parcelable {
-    //val translations = mutableSetOf<Word>()
+    private val _translations = mutableSetOf<Word>()
+    val translations: Set<Word>
+        get() = _translations
 
-    /*fun addTranslation(t: Word) {
-        translations.add(t)
+    fun addTranslation(t: Word) {
+        _translations.add(t)
     }
 
     fun addTranslations(ts: Set<Word>) {
-        translations.addAll(ts)
-    }*/
+        _translations.addAll(ts)
+    }
 
     fun isTranslation(word: Word): Boolean {
         return translations.contains(word)
     }
 
     fun translationCount(lang: String): Int {
-        return translations.filter { set ->
-            set.containsKey(lang)
-        }.count()
+        return translations.filter { it.lang == lang }.count()
     }
 
     // Edit distance with Wagner-Fischer algorithm

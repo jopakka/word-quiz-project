@@ -20,8 +20,8 @@ class MainMenuViewModel: ViewModel() {
     val status: LiveData<WordsApiStatus>
         get() = _status
 
-    private val _words = MutableLiveData<Set<Map<String, Set<Word>>>>()
-    val words: LiveData<Set<Map<String, Set<Word>>>>
+    private val _words = MutableLiveData<Set<Word>>()
+    val words: LiveData<Set<Word>>
         get() = _words
 
     init {
@@ -33,6 +33,7 @@ class MainMenuViewModel: ViewModel() {
             _status.value = WordsApiStatus.LOADING
             try {
                 _words.value = WordsApi.retrofitService.getWords()
+                words.value?.forEach { setTranslations(it) }
                 _status.value = WordsApiStatus.DONE
                 Log.i(TAG, "Words retrieved successfully")
             } catch (e: Exception){
@@ -40,5 +41,9 @@ class MainMenuViewModel: ViewModel() {
                 _status.value = WordsApiStatus.ERROR
             }
         }
+    }
+
+    private fun setTranslations(word: Word){
+        word.addTranslations(words.value?.filter { word.translationIds.contains(it.id) }?.toSet() ?: emptySet())
     }
 }

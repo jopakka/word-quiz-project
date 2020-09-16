@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -8,15 +9,57 @@
             type="com.joonasniemi.wordquizproject.mainmenu.MainMenuViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainManuLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".mainmenu.MainMenuFragment">
+        android:layout_height="match_parent">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:id="@+id/current_languages_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_padding"
+            android:layout_marginTop="@dimen/normal_padding"
+            android:text="@string/your_current_language"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </FrameLayout>
+        <Spinner
+            android:id="@+id/current_languages_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_padding"
+            android:layout_marginTop="@dimen/normal_padding"
+            android:layout_marginEnd="@dimen/normal_padding"
+            android:spinnerMode="dropdown"
+            app:languages="@{viewModel.words}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/current_languages_text_view" />
+
+        <TextView
+            android:id="@+id/learning_language_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_padding"
+            android:layout_marginTop="@dimen/big_padding"
+            android:text="@string/language_you_try_to_learn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/current_languages_spinner" />
+
+        <Spinner
+            android:id="@+id/learning_languages_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_padding"
+            android:layout_marginTop="@dimen/normal_padding"
+            android:layout_marginEnd="@dimen/normal_padding"
+            android:spinnerMode="dropdown"
+            app:languages="@{viewModel.words}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/learning_language_text_view" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
