@@ -9,5 +9,18 @@
         android:id="@+id/mainMenuFragment"
         android:name="com.joonasniemi.wordquizproject.mainmenu.MainMenuFragment"
         android:label="fragment_main_menu"
-        tools:layout="@layout/fragment_main_menu" />
+        tools:layout="@layout/fragment_main_menu" >
+        <action
+            android:id="@+id/action_mainMenuFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.joonasniemi.wordquizproject.game.GameFragment"
+        android:label="GameFragment"
+        tools:layout="@layout/fragment_game">
+        <argument
+            android:name="wordList"
+            app:argType="com.joonasniemi.wordquizproject.network.WordList" />
+    </fragment>
 </navigation>

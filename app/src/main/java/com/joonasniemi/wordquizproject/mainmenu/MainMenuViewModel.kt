@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joonasniemi.wordquizproject.network.Word
 import com.joonasniemi.wordquizproject.network.WordsApi
+import com.joonasniemi.wordquizproject.network.WordsRepository
+import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.launch
 
 enum class WordsApiStatus { LOADING, ERROR, DONE }
@@ -15,6 +17,8 @@ class MainMenuViewModel: ViewModel() {
     companion object {
         const val TAG = "MainMenuViewModel"
     }
+
+    private val repository = WordsRepository()
 
     private val _status = MutableLiveData<WordsApiStatus>()
     val status: LiveData<WordsApiStatus>
@@ -32,7 +36,7 @@ class MainMenuViewModel: ViewModel() {
         viewModelScope.launch {
             _status.value = WordsApiStatus.LOADING
             try {
-                _words.value = WordsApi.retrofitService.getWords()
+                _words.value = repository.getWords()
                 words.value?.forEach { setTranslations(it) }
                 _status.value = WordsApiStatus.DONE
                 Log.i(TAG, "Words retrieved successfully")

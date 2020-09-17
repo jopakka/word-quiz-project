@@ -18,8 +18,8 @@
             android:id="@+id/current_languages_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/normal_padding"
-            android:layout_marginTop="@dimen/normal_padding"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/normal_margin"
             android:text="@string/your_current_language"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,21 +28,22 @@
             android:id="@+id/current_languages_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/normal_padding"
-            android:layout_marginTop="@dimen/normal_padding"
-            android:layout_marginEnd="@dimen/normal_padding"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/normal_margin"
             android:spinnerMode="dropdown"
             app:languages="@{viewModel.words}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/current_languages_text_view" />
+            app:layout_constraintTop_toBottomOf="@+id/current_languages_text_view"
+            tools:listitem="@layout/support_simple_spinner_dropdown_item" />
 
         <TextView
             android:id="@+id/learning_language_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/normal_padding"
-            android:layout_marginTop="@dimen/big_padding"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/big_margin"
             android:text="@string/language_you_try_to_learn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/current_languages_spinner" />
@@ -51,14 +52,25 @@
             android:id="@+id/learning_languages_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/normal_padding"
-            android:layout_marginTop="@dimen/normal_padding"
-            android:layout_marginEnd="@dimen/normal_padding"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/normal_margin"
             android:spinnerMode="dropdown"
             app:languages="@{viewModel.words}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/learning_language_text_view" />
+            app:layout_constraintTop_toBottomOf="@+id/learning_language_text_view"
+            tools:listitem="@layout/support_simple_spinner_dropdown_item"/>
+
+        <Button
+            android:id="@+id/play_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/big_margin"
+            android:text="@string/play"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/learning_languages_spinner" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -2,11 +2,12 @@ package com.joonasniemi.wordquizproject.network
 
 import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Word(
-    val id: Int,
+    val id: Long,
     val text: String,
     val detail: String?,
     val lang: String,
@@ -14,6 +15,7 @@ data class Word(
     val imgUrl: String,
     val translationIds: Set<Int>
 ): Parcelable {
+    @IgnoredOnParcel
     private val _translations = mutableSetOf<Word>()
     val translations: Set<Word>
         get() = _translations
