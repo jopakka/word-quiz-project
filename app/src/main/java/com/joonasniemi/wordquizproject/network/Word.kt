@@ -7,15 +7,14 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Word(
-    val id: Long,
+    val id: Int,
     val text: String,
     val detail: String?,
     val lang: String,
-    val wiki: String,
-    val imgUrl: String,
+    val wiki: String?,
+    val imgUrl: String?,
     val translationIds: Set<Int>
 ): Parcelable {
-    @IgnoredOnParcel
     private val _translations = mutableSetOf<Word>()
     val translations: Set<Word>
         get() = _translations

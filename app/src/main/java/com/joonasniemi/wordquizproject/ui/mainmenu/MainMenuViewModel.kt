@@ -1,4 +1,4 @@
-package com.joonasniemi.wordquizproject.mainmenu
+package com.joonasniemi.wordquizproject.ui.mainmenu
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -6,16 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joonasniemi.wordquizproject.network.Word
-import com.joonasniemi.wordquizproject.network.WordsApi
 import com.joonasniemi.wordquizproject.network.WordsRepository
-import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.launch
 
 enum class WordsApiStatus { LOADING, ERROR, DONE }
 
 class MainMenuViewModel: ViewModel() {
     companion object {
-        const val TAG = "MainMenuViewModel"
+        private const val TAG = "MainMenuViewModel"
     }
 
     private val repository = WordsRepository()
@@ -28,6 +26,8 @@ class MainMenuViewModel: ViewModel() {
     val words: LiveData<Set<Word>>
         get() = _words
 
+    val selectedCurrentLanguage = MutableLiveData<String>()
+
     init {
         getWords()
     }
@@ -37,7 +37,6 @@ class MainMenuViewModel: ViewModel() {
             _status.value = WordsApiStatus.LOADING
             try {
                 _words.value = repository.getWords()
-                words.value?.forEach { setTranslations(it) }
                 _status.value = WordsApiStatus.DONE
                 Log.i(TAG, "Words retrieved successfully")
             } catch (e: Exception){
@@ -45,9 +44,5 @@ class MainMenuViewModel: ViewModel() {
                 _status.value = WordsApiStatus.ERROR
             }
         }
-    }
-
-    private fun setTranslations(word: Word){
-        word.addTranslations(words.value?.filter { word.translationIds.contains(it.id) }?.toSet() ?: emptySet())
     }
 }

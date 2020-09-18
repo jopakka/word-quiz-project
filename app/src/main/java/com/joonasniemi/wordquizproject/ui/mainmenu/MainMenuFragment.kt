@@ -1,4 +1,4 @@
-package com.joonasniemi.wordquizproject.mainmenu
+package com.joonasniemi.wordquizproject.ui.mainmenu
 
 import android.os.Bundle
 import android.util.Log
@@ -6,14 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.AdapterView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import com.joonasniemi.wordquizproject.R
 import com.joonasniemi.wordquizproject.databinding.FragmentMainMenuBinding
-import com.joonasniemi.wordquizproject.network.Word
 import com.joonasniemi.wordquizproject.network.WordList
-import org.w3c.dom.Text
 import java.util.*
 
 class MainMenuFragment : Fragment() {
@@ -33,19 +30,26 @@ class MainMenuFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        setOnClickListeners()
+        setListeners()
 
         return binding.root
     }
 
-    private fun setOnClickListeners() {
+    private fun setListeners() {
         binding.playButton.setOnClickListener {
-            val list = WordList(viewModel.words.value?.filter { word ->
-                word.lang == binding.currentLanguagesSpinner
-                    .selectedItem.toString().decapitalize(Locale.ROOT) }?.shuffled()?.take(5)?.toSet() ?: emptySet())
-
             it.findNavController()
-                .navigate(MainMenuFragmentDirections.actionMainMenuFragmentToGameFragment(list))
+                .navigate(
+                    MainMenuFragmentDirections
+                        .actionMainMenuFragmentToGameFragment(getShuffledList())
+                )
         }
     }
+
+    private fun getShuffledList(n: Int = 5) = WordList(
+        viewModel.words.value?.filter { word ->
+            word.lang == binding.currentLanguagesSpinner
+                .selectedItem.toString().decapitalize(Locale.ROOT)
+        }?.shuffled()?.take(n) ?: emptyList(),
+        binding.learningLanguagesSpinner.selectedItem.toString().decapitalize(Locale.ROOT)
+    )
 }
