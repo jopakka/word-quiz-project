@@ -10,6 +10,9 @@ import android.widget.TextView
 import com.joonasniemi.wordquizproject.R
 import java.util.*
 
+/**
+ * Custom [ArrayAdapter] for language spinners
+ */
 class LanguagesSpinnerAdapter(context: Context, private val languageList: List<String>,
                               private val resource: Int = R.layout.support_simple_spinner_dropdown_item
 ) : ArrayAdapter<String>(context, resource, languageList) {
@@ -22,10 +25,16 @@ class LanguagesSpinnerAdapter(context: Context, private val languageList: List<S
         return setView(position, convertView, parent)
     }
 
+    /**
+     * Disables first item on list
+     */
     override fun isEnabled(position: Int): Boolean {
         return position != 0
     }
 
+    /**
+     * Sets first item text color to gray, and capitalize text
+     */
     private fun setView(position: Int, convertView: View?, parent: ViewGroup): View {
         val listItem = convertView ?: LayoutInflater.from(context)
             .inflate(resource, parent, false)

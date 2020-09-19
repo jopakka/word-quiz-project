@@ -7,6 +7,9 @@
         <variable
             name="viewModel"
             type="com.joonasniemi.wordquizproject.ui.game.GameViewModel" />
+        <variable
+            name="game"
+            type="com.joonasniemi.wordquizproject.ui.game.GameFragment" />
     </data>
 
     <ScrollView
@@ -70,7 +73,7 @@
                 tools:text="@string/wikipedia_link" />
 
             <RadioGroup
-                android:id="@+id/radioGroup"
+                android:id="@+id/answer_radio_group"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/very_big_margin"
@@ -81,28 +84,28 @@
                 app:layout_constraintTop_toBottomOf="@+id/wikipedia_link">
 
                 <RadioButton
-                    android:id="@+id/radioButton"
+                    android:id="@+id/answer_radio_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:answerText="@{viewModel.answers[0]}"
                     tools:text="Wall" />
 
                 <RadioButton
-                    android:id="@+id/radioButton2"
+                    android:id="@+id/answer_radio_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:answerText="@{viewModel.answers[1]}"
                     tools:text="Well" />
 
                 <RadioButton
-                    android:id="@+id/radioButton3"
+                    android:id="@+id/answer_radio_3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:answerText="@{viewModel.answers[2]}"
                     tools:text="Woll" />
 
                 <RadioButton
-                    android:id="@+id/radioButton4"
+                    android:id="@+id/answer_radio_4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:answerText="@{viewModel.answers[3]}"
@@ -111,7 +114,7 @@
             </RadioGroup>
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/submit_button"
                 style="@style/ButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -119,7 +122,7 @@
                 android:text="@string/submit"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+                app:layout_constraintTop_toBottomOf="@+id/answer_radio_group" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

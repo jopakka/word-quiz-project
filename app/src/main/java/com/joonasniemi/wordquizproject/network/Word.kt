@@ -9,12 +9,13 @@ import kotlinx.android.parcel.Parcelize
 data class Word(
     val id: Int,
     val text: String,
-    val detail: String?,
+    val detail: String? = null,
     val lang: String,
-    val wiki: String?,
-    val imgUrl: String?,
+    val wiki: String? = null,
+    val imgUrl: String? = null,
     val translationIds: Set<Int>
 ): Parcelable {
+    @IgnoredOnParcel
     private val _translations = mutableSetOf<Word>()
     val translations: Set<Word>
         get() = _translations
@@ -37,9 +38,9 @@ data class Word(
 
     // Edit distance with Wagner-Fischer algorithm
     // See https://en.wikipedia.org/wiki/Wagner%E2%80%93Fischer_algorithm
-    fun editDistance(another: Word): Int {
+    fun editDistance(another: String): Int {
         val m = this.text.length
-        val n = another.text.length
+        val n = another.length
 
         val d: Array<IntArray> = Array(m + 1) { IntArray(n + 1) { 0 } } // set all (m+1) * (n+1) elements to zero
 
@@ -53,7 +54,7 @@ data class Word(
 
         for (j in 1..n) {
             for (i in 1..m) {
-                val cost = if (this.text[i - 1] == another.text[j - 1]) 0 else 1
+                val cost = if (this.text[i - 1] == another[j - 1]) 0 else 1
 
                 // Checks if it's cheapest to delete, insert or replace char
                 d[i][j] = minOf(d[i][j - 1] + 1,  // replace

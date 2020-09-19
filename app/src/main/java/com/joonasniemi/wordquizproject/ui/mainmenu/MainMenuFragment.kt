@@ -21,12 +21,20 @@ class MainMenuFragment : Fragment() {
 
     private lateinit var binding: FragmentMainMenuBinding
 
+    /**
+     * Creates viewModel for fragment
+     */
     private val viewModel: MainMenuViewModel by lazy {
-            ViewModelProvider(this).get(MainMenuViewModel::class.java)
+        ViewModelProvider(
+            this,
+            MainMenuViewModelFactory(context)
+        ).get(MainMenuViewModel::class.java)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentMainMenuBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -36,7 +44,13 @@ class MainMenuFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Initialize listeners to different elements
+     */
     private fun setListeners() {
+        /**
+         * Play button onClickListener
+         */
         binding.playButton.setOnClickListener {
             it.findNavController()
                 .navigate(
@@ -45,45 +59,74 @@ class MainMenuFragment : Fragment() {
                 )
         }
 
-        binding.currentLanguagesSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                binding.playButton.isEnabled = checkSpinnersNotEqual() && checkSpinnersNotZero()
-                if(!checkSpinnersNotEqual())
-                    binding.learningLanguagesSpinner.setSelection(0)
+        /**
+         * Current language spinner onItemSelectedListener
+         */
+        binding.currentLanguagesSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    binding.playButton.isEnabled = checkSpinnersNotEqual() && checkSpinnersNotZero()
+                    if (!checkSpinnersNotEqual())
+                        binding.learningLanguagesSpinner.setSelection(0)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    parent?.setSelection(0)
+                }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-        }
+        /**
+         * Learning language spinner onItemSelectedSpinner
+         */
+        binding.learningLanguagesSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    binding.playButton.isEnabled = checkSpinnersNotEqual() && checkSpinnersNotZero()
+                    if (!checkSpinnersNotEqual())
+                        binding.currentLanguagesSpinner.setSelection(0)
+                }
 
-        binding.learningLanguagesSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                binding.playButton.isEnabled = checkSpinnersNotEqual() && checkSpinnersNotZero()
-                if(!checkSpinnersNotEqual())
-                    binding.currentLanguagesSpinner.setSelection(0)
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    parent?.setSelection(0)
+                }
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-        }
     }
 
-    private fun checkSpinnersNotEqual(): Boolean{
+    /**
+     * Checks that are two language spinners equals
+     */
+    private fun checkSpinnersNotEqual(): Boolean {
         return binding.currentLanguagesSpinner.selectedItem != binding.learningLanguagesSpinner.selectedItem
     }
 
+    /**
+     * Checks that two language spinners values aren't 0
+     */
     private fun checkSpinnersNotZero(): Boolean {
         return binding.currentLanguagesSpinner.selectedItemId != 0L
                 && binding.learningLanguagesSpinner.selectedItemId != 0L
     }
 
-    private fun getShuffledList(n: Int = 5) = WordList(
-        viewModel.words.value?.filter { word ->
-            word.lang == binding.currentLanguagesSpinner
-                .selectedItem.toString().decapitalize(Locale.ROOT)
-        }?.shuffled()?.take(n) ?: emptyList(),
-        binding.learningLanguagesSpinner.selectedItem.toString().decapitalize(Locale.ROOT)
-    )
+    /**
+     * Returns [WordList] with maximum of [n] shuffled words in it
+     */
+    private fun getShuffledList(n: Int = 5): WordList {
+        val list = viewModel.words.value?.filter { word ->
+            word.lang == binding.currentLanguagesSpinner.selectedItem.toString()
+                .decapitalize(Locale.ROOT)
+        }?.shuffled()?.take(n) ?: emptyList()
+        return WordList(
+            list, binding.learningLanguagesSpinner.selectedItem.toString().decapitalize(Locale.ROOT)
+        )
+    }
 }

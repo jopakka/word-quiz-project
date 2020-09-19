@@ -1,8 +1,10 @@
 package com.joonasniemi.wordquizproject.ui.mainmenu
 
 import android.app.Application
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.databinding.Bindable
 import androidx.lifecycle.*
 import com.joonasniemi.wordquizproject.databinding.FragmentMainMenuBinding
@@ -13,7 +15,7 @@ import kotlinx.coroutines.launch
 
 enum class WordsApiStatus { LOADING, ERROR, DONE }
 
-class MainMenuViewModel(): ViewModel() {
+class MainMenuViewModel(private val context: Context?): ViewModel() {
     companion object {
         private const val TAG = "MainMenuViewModel"
     }
@@ -32,6 +34,9 @@ class MainMenuViewModel(): ViewModel() {
         getWords()
     }
 
+    /**
+     * Gets words from [repository], then sets them to [_words] variable
+     */
     private fun getWords(){
         viewModelScope.launch {
             _status.value = WordsApiStatus.LOADING
@@ -41,8 +46,18 @@ class MainMenuViewModel(): ViewModel() {
                 Log.i(TAG, "Words retrieved successfully")
             } catch (e: Exception){
                 Log.e(TAG, e.toString())
+                Toast.makeText(context, "Error while trying to fetch words", Toast.LENGTH_LONG).show()
                 _status.value = WordsApiStatus.ERROR
             }
         }
+    }
+}
+
+/**
+ * ViewModelFactory for passing arguments from fragment
+ */
+class MainMenuViewModelFactory(private val context: Context?) : ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return modelClass.getConstructor(Context::class.java).newInstance(context)
     }
 }

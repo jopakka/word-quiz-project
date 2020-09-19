@@ -19,8 +19,7 @@ import java.util.*
 @BindingAdapter("languages")
 fun bindLanguages(spinner: Spinner, words: Set<Word>?) {
     val list = mutableListOf(spinner.context.getString(R.string.select_language))
-    list.addAll(words?.map { w -> w.lang }?.sorted() ?: emptyList())
-    list.addAll(listOf("Finnish", "English", "Swedish").sorted())
+    list.addAll(words?.map { w -> w.lang }?.sorted()?.distinct() ?: emptyList())
 
     spinner.isEnabled = list.size > 1
     spinner.adapter = LanguagesSpinnerAdapter(spinner.context, list)
