@@ -1,6 +1,7 @@
 package com.joonasniemi.wordquizproject.ui.mainmenu
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,9 +22,16 @@ class LanguagesSpinnerAdapter(context: Context, private val languageList: List<S
         return setView(position, convertView, parent)
     }
 
-    private fun setView(position: Int, convertView: View?, parent: ViewGroup): View{
+    override fun isEnabled(position: Int): Boolean {
+        return position != 0
+    }
+
+    private fun setView(position: Int, convertView: View?, parent: ViewGroup): View {
         val listItem = convertView ?: LayoutInflater.from(context)
             .inflate(resource, parent, false)
+
+        if(position == 0)
+            (listItem as TextView).setTextColor(Color.GRAY)
 
         val currentItem = languageList[position]
         (listItem as TextView).text = currentItem.capitalize(Locale.ROOT)

@@ -1,17 +1,19 @@
 package com.joonasniemi.wordquizproject.ui.mainmenu
 
+import android.app.Application
+import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.databinding.Bindable
+import androidx.lifecycle.*
+import com.joonasniemi.wordquizproject.databinding.FragmentMainMenuBinding
 import com.joonasniemi.wordquizproject.network.Word
+import com.joonasniemi.wordquizproject.network.WordList
 import com.joonasniemi.wordquizproject.network.WordsRepository
 import kotlinx.coroutines.launch
 
 enum class WordsApiStatus { LOADING, ERROR, DONE }
 
-class MainMenuViewModel: ViewModel() {
+class MainMenuViewModel(): ViewModel() {
     companion object {
         private const val TAG = "MainMenuViewModel"
     }
@@ -25,8 +27,6 @@ class MainMenuViewModel: ViewModel() {
     private val _words = MutableLiveData<Set<Word>>()
     val words: LiveData<Set<Word>>
         get() = _words
-
-    val selectedCurrentLanguage = MutableLiveData<String>()
 
     init {
         getWords()

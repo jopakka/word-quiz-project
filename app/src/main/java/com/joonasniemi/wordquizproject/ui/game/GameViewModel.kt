@@ -53,7 +53,6 @@ class GameViewModel(val args: Bundle?) : ViewModel() {
 }
 
 class GameViewModelFactory(private val args: Bundle?) : ViewModelProvider.Factory {
-
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         Log.i("GameViewModelFactory", (args?.get("wordList") as WordList).list[0].translations.toString())
         return modelClass.getConstructor(Bundle::class.java).newInstance(args)

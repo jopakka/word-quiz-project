@@ -9,34 +9,39 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.text.HtmlCompat
+import androidx.databinding.Bindable
 import androidx.databinding.BindingAdapter
+import com.joonasniemi.wordquizproject.databinding.FragmentMainMenuBinding
 import com.joonasniemi.wordquizproject.ui.mainmenu.LanguagesSpinnerAdapter
 import com.joonasniemi.wordquizproject.network.Word
 import java.util.*
 
 @BindingAdapter("languages")
 fun bindLanguages(spinner: Spinner, words: Set<Word>?) {
-    val placeholderList = listOf(spinner.context.getString(R.string.empty_list_placeholder_text))
-    val languages:List<String> = (words?.map { it.lang }?.toSet()?.toList() ?: placeholderList) as List<String>
+    val list = mutableListOf(spinner.context.getString(R.string.select_language))
+    list.addAll(words?.map { w -> w.lang }?.sorted() ?: emptyList())
+    list.addAll(listOf("Finnish", "English", "Swedish").sorted())
 
-    spinner.isEnabled = languages != placeholderList
-    spinner.adapter = LanguagesSpinnerAdapter(spinner.context, languages)
+    spinner.isEnabled = list.size > 1
+    spinner.adapter = LanguagesSpinnerAdapter(spinner.context, list)
 }
 
 @BindingAdapter("wikiLink")
 fun bindWikipedia(textView: TextView, link: String?){
-    link?.let {
-        textView.text = HtmlCompat.fromHtml(textView.context.getString(R.string.wikipedia_link, link), HtmlCompat.FROM_HTML_MODE_COMPACT)
-        textView.movementMethod = LinkMovementMethod.getInstance()
-        textView.visibility = View.VISIBLE
+    when(link){
+        null -> textView.visibility = View.INVISIBLE
+        else -> {
+            textView.text = HtmlCompat.fromHtml(textView.context.getString(R.string.wikipedia_link, link), HtmlCompat.FROM_HTML_MODE_COMPACT)
+            textView.movementMethod = LinkMovementMethod.getInstance()
+            textView.visibility = View.VISIBLE
+        }
     }
 }
 
 @BindingAdapter("wordText")
 fun bindWordText(textView: TextView, word: Word){
     textView.text = word.text.capitalize(Locale.ROOT)
-    if(word.detail != null)
-         textView.append(" (${word.detail})")
+    word.detail?.let { textView.append(" ($it)") }
 }
 
 @BindingAdapter("answerText")

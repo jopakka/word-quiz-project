@@ -18,7 +18,7 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface WordsApiService {
-    @GET("Words.json")
+    @GET("words.json")
     suspend fun getWords(): Set<Word>
 }
 
