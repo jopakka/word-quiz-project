@@ -15,6 +15,6 @@ class WordListTest {
 
     @Test
     fun getTranslationLanguage() {
-        assertEquals("english", list.translationLanguage)
+        assertEquals("english", list.answerLanguage)
     }
 }

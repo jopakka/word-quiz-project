@@ -1,9 +1,9 @@
 package com.joonasniemi.wordquizproject.network
 
 import android.os.Parcelable
-import com.squareup.moshi.Json
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
+import java.util.*
 
 @Parcelize
 data class Word(
@@ -32,13 +32,23 @@ data class Word(
         return translations.contains(word)
     }
 
+    fun isTranslation(string: String): Boolean {
+        translations.map {
+            if(it.text.toLowerCase(Locale.ROOT) == string.toLowerCase(Locale.ROOT))
+                return true
+        }
+        return false
+    }
+
     fun translationCount(lang: String): Int {
         return translations.filter { it.lang == lang }.count()
     }
 
     // Edit distance with Wagner-Fischer algorithm
     // See https://en.wikipedia.org/wiki/Wagner%E2%80%93Fischer_algorithm
-    fun editDistance(another: String): Int {
+    fun editDistance(another: String?): Int {
+        if(another == null) return  -1
+
         val m = this.text.length
         val n = another.length
 

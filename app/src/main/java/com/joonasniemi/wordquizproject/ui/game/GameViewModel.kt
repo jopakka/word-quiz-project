@@ -6,55 +6,55 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.joonasniemi.wordquizproject.databinding.FragmentGameBinding
 import com.joonasniemi.wordquizproject.network.Word
-import com.joonasniemi.wordquizproject.network.WordList
 
-enum class AnswersStatus { LOADING, DONE, ERROR }
+enum class GameType { MULTI, TEXT }
 
-class GameViewModel(val args: Bundle?) : ViewModel() {
+class GameViewModel : ViewModel() {
     companion object {
         const val TAG = "GameViewModel"
     }
 
-    private val _answersStatus = MutableLiveData<AnswersStatus>()
-    val answersStatus: LiveData<AnswersStatus>
-        get() = _answersStatus
+    private val words: MutableList<Word> = mutableListOf()
 
-    private var words: List<Word> = emptyList()
+    private lateinit var answerLanguage: String
 
-    private val _answers = mutableSetOf<String>()
-    val answers: List<String>
-        get() = _answers.toList()
+    private val _answers = MutableLiveData<List<String>>()
+    val answers: LiveData<List<String>>
+        get() = _answers
 
     private val _currentWord = MutableLiveData<Word>()
     val currentWord: LiveData<Word>
         get() = _currentWord
 
-    val learningLanguage: String
+    var questionIndex = 0
 
-    init {
-        _answersStatus.value = AnswersStatus.LOADING
-        words = (args?.get("wordList") as WordList).list
-        learningLanguage = (args.get("wordList") as WordList).translationLanguage
-        _currentWord.value = words[0]
+    lateinit var gameType: GameType
+
+    fun initGame(list: List<Word>, answerLanguage: String, gameType: GameType) {
+        words.addAll(list)
+        this.gameType = gameType
+        this.answerLanguage = answerLanguage
+    }
+
+    fun setQuestion() {
+        _currentWord.value = words[questionIndex]
         setAnswers()
     }
 
-    private fun setAnswers(){
-        val correct = currentWord.value?.translations?.first { it.lang == learningLanguage }
-        correct?.text?.let { _answers.add(it) }
-        while (_answers.size < 4){
-            correct?.text?.let {
-                _answers.add(it.replaceFirst("aeiouyäö".random(), "aeiouy".random(), true))
+    private fun setAnswers() {
+        val correct = currentWord.value?.translations?.first { it.lang == answerLanguage }
+        correct?.let { corr ->
+            val mutList: MutableList<String> = mutableListOf()
+            mutList.add(corr.text)
+            while (mutList.size < 4) {
+                val newAnswer = corr.text.replaceFirst("aeiouyäö".random(), "aeiouy".random(), true)
+                if (!mutList.contains(newAnswer))
+                    mutList.add(newAnswer)
             }
+            _answers.value = mutList.shuffled()
         }
     }
-
 }
 
-class GameViewModelFactory(private val args: Bundle?) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        Log.i("GameViewModelFactory", (args?.get("wordList") as WordList).list[0].translations.toString())
-        return modelClass.getConstructor(Bundle::class.java).newInstance(args)
-    }
-}

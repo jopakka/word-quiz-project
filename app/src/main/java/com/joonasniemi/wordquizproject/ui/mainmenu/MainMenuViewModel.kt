@@ -1,15 +1,10 @@
 package com.joonasniemi.wordquizproject.ui.mainmenu
 
-import android.app.Application
 import android.content.Context
-import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.databinding.Bindable
 import androidx.lifecycle.*
-import com.joonasniemi.wordquizproject.databinding.FragmentMainMenuBinding
 import com.joonasniemi.wordquizproject.network.Word
-import com.joonasniemi.wordquizproject.network.WordList
 import com.joonasniemi.wordquizproject.network.WordsRepository
 import kotlinx.coroutines.launch
 

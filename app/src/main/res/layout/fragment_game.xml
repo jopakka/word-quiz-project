@@ -7,14 +7,12 @@
         <variable
             name="viewModel"
             type="com.joonasniemi.wordquizproject.ui.game.GameViewModel" />
-        <variable
-            name="game"
-            type="com.joonasniemi.wordquizproject.ui.game.GameFragment" />
     </data>
 
     <ScrollView
-        android:layout_height="match_parent"
+        android:id="@+id/game_scroll_view"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,10 +23,9 @@
                 android:id="@+id/word_image"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="@dimen/normal_margin"
-                android:layout_marginTop="@dimen/normal_margin"
-                android:layout_marginEnd="@dimen/normal_margin"
+                android:contentDescription="@{viewModel.currentWord.text}"
                 android:scaleType="fitCenter"
+                app:imageUrl="@{viewModel.currentWord.imgUrl}"
                 app:layout_constraintBottom_toTopOf="@+id/guideline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -45,11 +42,10 @@
                 android:fontFamily="@font/roboto_bold"
                 android:textSize="36sp"
                 android:textStyle="bold"
-                app:wordText="@{viewModel.currentWord}"
-                app:layout_constraintBottom_toTopOf="@+id/guideline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guideline"
+                app:wordText="@{viewModel.currentWord}"
                 tools:text="Kaivo" />
 
             <androidx.constraintlayout.widget.Guideline
@@ -59,29 +55,16 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_percent="0.333" />
 
-            <TextView
-                android:id="@+id/wikipedia_link"
-                style="@style/DefaultTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/very_big_margin"
-                android:layout_marginTop="@dimen/normal_margin"
-                android:visibility="visible"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline"
-                app:wikiLink="@{viewModel.currentWord.wiki}"
-                tools:text="@string/wikipedia_link" />
-
             <RadioGroup
                 android:id="@+id/answer_radio_group"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/very_big_margin"
-                android:layout_marginTop="@dimen/very_big_margin"
+                android:layout_marginTop="@dimen/normal_margin"
                 android:layout_marginEnd="@dimen/very_big_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/wikipedia_link">
+                app:layout_constraintTop_toBottomOf="@+id/word_text">
 
                 <RadioButton
                     android:id="@+id/answer_radio_1"

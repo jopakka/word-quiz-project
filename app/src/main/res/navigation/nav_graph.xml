@@ -20,7 +20,7 @@
         android:label="GameFragment"
         tools:layout="@layout/fragment_game">
         <argument
-            android:name="wordList"
-            app:argType="com.joonasniemi.wordquizproject.network.WordList" />
+            android:name="gameArguments"
+            app:argType="com.joonasniemi.wordquizproject.network.GameArguments" />
     </fragment>
 </navigation>

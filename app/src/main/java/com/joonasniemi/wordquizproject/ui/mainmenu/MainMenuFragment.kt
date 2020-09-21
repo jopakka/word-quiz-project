@@ -1,17 +1,17 @@
 package com.joonasniemi.wordquizproject.ui.mainmenu
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import androidx.databinding.Bindable
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.joonasniemi.wordquizproject.databinding.FragmentMainMenuBinding
-import com.joonasniemi.wordquizproject.network.WordList
+import com.joonasniemi.wordquizproject.network.GameArguments
+import com.joonasniemi.wordquizproject.network.Word
+import com.joonasniemi.wordquizproject.ui.game.GameType
 import java.util.*
 
 class MainMenuFragment : Fragment() {
@@ -55,7 +55,9 @@ class MainMenuFragment : Fragment() {
             it.findNavController()
                 .navigate(
                     MainMenuFragmentDirections
-                        .actionMainMenuFragmentToGameFragment(getShuffledList())
+                        .actionMainMenuFragmentToGameFragment(GameArguments(getShuffledList(),
+                            binding.learningLanguagesSpinner.selectedItem.toString().decapitalize(Locale.ROOT),
+                        GameType.MULTI))
                 )
         }
 
@@ -120,13 +122,10 @@ class MainMenuFragment : Fragment() {
     /**
      * Returns [WordList] with maximum of [n] shuffled words in it
      */
-    private fun getShuffledList(n: Int = 5): WordList {
-        val list = viewModel.words.value?.filter { word ->
+    private fun getShuffledList(n: Int = 5): List<Word> {
+        return viewModel.words.value?.filter { word ->
             word.lang == binding.currentLanguagesSpinner.selectedItem.toString()
                 .decapitalize(Locale.ROOT)
         }?.shuffled()?.take(n) ?: emptyList()
-        return WordList(
-            list, binding.learningLanguagesSpinner.selectedItem.toString().decapitalize(Locale.ROOT)
-        )
     }
 }

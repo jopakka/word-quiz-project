@@ -1,19 +1,19 @@
 package com.joonasniemi.wordquizproject
 
-import android.os.Build
-import android.text.Html
-import android.text.Spanned
-import android.text.SpannedString
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.ImageView
+import android.widget.RadioButton
+import android.widget.Spinner
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
-import androidx.databinding.Bindable
 import androidx.databinding.BindingAdapter
-import com.joonasniemi.wordquizproject.databinding.FragmentMainMenuBinding
-import com.joonasniemi.wordquizproject.ui.mainmenu.LanguagesSpinnerAdapter
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.joonasniemi.wordquizproject.network.Word
+import com.joonasniemi.wordquizproject.ui.mainmenu.LanguagesSpinnerAdapter
 import java.util.*
 
 @BindingAdapter("languages")
@@ -38,12 +38,25 @@ fun bindWikipedia(textView: TextView, link: String?){
 }
 
 @BindingAdapter("wordText")
-fun bindWordText(textView: TextView, word: Word){
-    textView.text = word.text.capitalize(Locale.ROOT)
-    word.detail?.let { textView.append(" ($it)") }
+fun bindWordText(textView: TextView, word: Word?){
+    textView.text = word?.text?.capitalize(Locale.ROOT)
+    word?.detail?.let { textView.append(" ($it)") }
 }
 
 @BindingAdapter("answerText")
-fun bindAnswer(radioButton: RadioButton, answer: String){
-    radioButton.text = answer.capitalize(Locale.ROOT)
+fun bindAnswer(radioButton: RadioButton, answer: String?){
+    radioButton.text = answer?.capitalize(Locale.ROOT)
+}
+
+@BindingAdapter("imageUrl")
+fun bindImage(imageView: ImageView, imgUrl: String?){
+    imgUrl?.let {
+        val imgUri = it.toUri().buildUpon().scheme("https").build()
+        Glide.with(imageView.context)
+            .load(imgUri)
+            .apply(RequestOptions()
+                .placeholder(R.drawable.loading_icon_with_animation)
+                .error(R.drawable.questionmark))
+            .into(imageView)
+    } ?: imageView.setImageDrawable(ContextCompat.getDrawable(imageView.context, R.drawable.questionmark))
 }

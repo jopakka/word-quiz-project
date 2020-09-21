@@ -25,7 +25,7 @@ private val retrofit = Retrofit.Builder()
 
 interface WordsApiService {
     /**
-     * Fetched [words.json] from [BASE_URL] using [retrofit] object
+     * Fetches words.json from [BASE_URL] using [retrofit] object
      */
     @GET("words.json")
     suspend fun getWords(): Set<Word>
