@@ -22,5 +22,23 @@
         <argument
             android:name="gameArguments"
             app:argType="com.joonasniemi.wordquizproject.network.GameArguments" />
+        <action
+            android:id="@+id/action_gameFragment_to_afterMatchFragment"
+            app:destination="@id/afterMatchFragment"
+            app:popUpTo="@id/gameFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/afterMatchFragment"
+        android:name="com.joonasniemi.wordquizproject.ui.aftermatch.AfterMatchFragment"
+        android:label="AfterMatchFragment"
+        tools:layout="@layout/fragment_after_match">
+        <action
+            android:id="@+id/action_afterMatchFragment_to_gameFragment"
+            app:destination="@id/gameFragment"
+            app:popUpTo="@id/mainMenuFragment" />
+        <argument
+            android:name="afterMatchArguments"
+            app:argType="com.joonasniemi.wordquizproject.network.AfterMatchArguments" />
     </fragment>
 </navigation>

@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.joonasniemi.wordquizproject.R
 import com.joonasniemi.wordquizproject.databinding.FragmentGameBinding
+import com.joonasniemi.wordquizproject.network.AfterMatchArguments
 import com.joonasniemi.wordquizproject.network.GameArguments
 
 class GameFragment : Fragment() {
@@ -44,28 +46,38 @@ class GameFragment : Fragment() {
                 GameType.MULTI -> {
                     val checkedId = binding.answerRadioGroup.checkedRadioButtonId
                     if(checkedId != -1){
-                        var answerIndex = 0
-                        when(checkedId){
-                            R.id.answer_radio_2 -> answerIndex = 1
-                            R.id.answer_radio_3 -> answerIndex = 2
-                            R.id.answer_radio_4 -> answerIndex = 3
+                        val answerIndex = when(checkedId){
+                            R.id.answer_radio_2 -> 1
+                            R.id.answer_radio_3 -> 2
+                            R.id.answer_radio_4 -> 3
+                            else -> 0
                         }
 
                         val distance = checkDistance(viewModel.answers.value?.get(answerIndex),
                             args.answerLanguage)
 
                         if(distance == 0){
-                            viewModel.questionIndex++
-                            if(viewModel.questionIndex < args.words.size){
-                                binding.answerRadioGroup.clearCheck()
-                                viewModel.setQuestion()
-                                binding.invalidateAll()
+                            viewModel.currentWord.value?.let {
+                                viewModel.userCorrectAnswers.add(it)
                             }
-                            else {
-                                TODO("Victory royale")
-                            }
+
+                            // TODO("Show good job")
                         } else {
-                            TODO("Game over scrub")
+                            // TODO("Show it's false answer")
+                        }
+
+                        viewModel.questionIndex++
+                        if(viewModel.questionIndex < args.words.size){
+                            binding.answerRadioGroup.clearCheck()
+                            viewModel.setQuestion()
+                            binding.invalidateAll()
+                        } else {
+                            findNavController().navigate(
+                                GameFragmentDirections
+                                    .actionGameFragmentToAfterMatchFragment(
+                                        AfterMatchArguments(viewModel.userCorrectAnswers, args.words.size)
+                                    )
+                            )
                         }
                     }
                 }

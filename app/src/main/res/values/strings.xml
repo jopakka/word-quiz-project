@@ -12,4 +12,13 @@
     <string name="select_language">Select language…</string>
     <string name="settings">Settings</string>
     <string name="stats">Stats</string>
+
+    <string name="correct_none">Aww too bad</string>
+    <string name="correct_under_half">You did OK</string>
+    <string name="correct_over_half">Nice job</string>
+    <string name="correct_all">Excellent!</string>
+
+    <string name="correct_text_none">You did not guess any words correct. Maybe next time</string>
+    <string name="correct_text_some">You guessed %1$d of %2$d words correct</string>
+    <string name="correct_text_all">You guessed every word correct! Congratulations!</string>
 </resources>

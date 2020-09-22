@@ -60,3 +60,36 @@ fun bindImage(imageView: ImageView, imgUrl: String?){
             .into(imageView)
     } ?: imageView.setImageDrawable(ContextCompat.getDrawable(imageView.context, R.drawable.questionmark))
 }
+
+@BindingAdapter("afterMatchTitle", "maxWords", requireAll = true)
+fun bindAfterMatchTitle(textView: TextView, corrects: Int, max: Int){
+    when {
+        corrects == 0 -> {
+            textView.text = textView.context.getString(R.string.correct_none)
+        }
+        corrects > 0 && corrects <= max / 2 -> {
+            textView.text = textView.context.getString(R.string.correct_under_half)
+        }
+        corrects > max / 2 && corrects < max -> {
+            textView.text = textView.context.getString(R.string.correct_over_half)
+        }
+        corrects == max -> {
+            textView.text = textView.context.getString(R.string.correct_all)
+        }
+    }
+}
+
+@BindingAdapter("afterMatchText", "maxWords", requireAll = true)
+fun bindAfterMatchText(textView: TextView, corrects: Int, max: Int){
+    when (corrects) {
+        0 -> {
+            textView.text = textView.context.getString(R.string.correct_text_none)
+        }
+        max -> {
+            textView.text = textView.context.getString(R.string.correct_text_all)
+        }
+        else -> {
+            textView.text = textView.context.getString(R.string.correct_text_some, corrects, max)
+        }
+    }
+}

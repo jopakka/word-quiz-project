@@ -13,7 +13,7 @@ enum class GameType { MULTI, TEXT }
 
 class GameViewModel : ViewModel() {
     companion object {
-        const val TAG = "GameViewModel"
+        private const val TAG = "GameViewModel"
     }
 
     private val words: MutableList<Word> = mutableListOf()
@@ -31,6 +31,8 @@ class GameViewModel : ViewModel() {
     var questionIndex = 0
 
     lateinit var gameType: GameType
+
+    val userCorrectAnswers = mutableListOf<Word>()
 
     fun initGame(list: List<Word>, answerLanguage: String, gameType: GameType) {
         words.addAll(list)

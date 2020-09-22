@@ -9,3 +9,6 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class GameArguments(val words: List<Word>, val answerLanguage: String, val gameType: GameType) : Parcelable
+
+@Parcelize
+data class AfterMatchArguments(val correctWords: List<Word>, val totalWords: Int): Parcelable
