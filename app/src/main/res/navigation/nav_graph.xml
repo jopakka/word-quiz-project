@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_mainMenuFragment_to_gameFragment"
             app:destination="@id/gameFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_statsFragment"
+            app:destination="@id/statsFragment" />
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
@@ -40,5 +43,14 @@
         <argument
             android:name="afterMatchArguments"
             app:argType="com.joonasniemi.wordquizproject.network.AfterMatchArguments" />
+    </fragment>
+    <fragment
+        android:id="@+id/statsFragment"
+        android:name="com.joonasniemi.wordquizproject.ui.stats.StatsFragment"
+        android:label="StatsFragment"
+        tools:layout="@layout/fragment_stats">
+        <action
+            android:id="@+id/action_statsFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment" />
     </fragment>
 </navigation>

@@ -61,6 +61,12 @@ class MainMenuFragment : Fragment() {
                 )
         }
 
+        binding.statsButton.setOnClickListener {
+            it.findNavController()
+                .navigate(MainMenuFragmentDirections
+                    .actionMainMenuFragmentToStatsFragment())
+        }
+
         /**
          * Current language spinner onItemSelectedListener
          */

@@ -75,6 +75,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/learning_languages_spinner" />
 
+        <Button
+            android:id="@+id/stats_button"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/very_big_margin"
+            android:text="@string/stats"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/play_button" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

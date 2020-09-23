@@ -1,6 +1,7 @@
 package com.joonasniemi.wordquizproject
 
 import android.text.method.LinkMovementMethod
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.RadioButton

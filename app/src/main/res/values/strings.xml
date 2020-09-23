@@ -21,4 +21,11 @@
     <string name="correct_text_none">You did not guess any words correct. Maybe next time</string>
     <string name="correct_text_some">You guessed %1$d of %2$d words correct</string>
     <string name="correct_text_all">You guessed every word correct! Congratulations!</string>
+
+    <string name="total_guesses">Total guesses: %1$d</string>
+    <string name="total_right_guesses">Right guesses: %1$d</string>
+    <string name="words">Words: %1$d</string>
+
+    <string name="have_guessed_right">You have guessed this word</string>
+    <string name="have_not_guessed">You don\'t have guessed this word</string>
 </resources>

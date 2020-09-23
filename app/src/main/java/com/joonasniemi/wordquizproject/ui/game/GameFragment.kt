@@ -82,7 +82,7 @@ class GameFragment : Fragment() {
                     }
                 }
                 GameType.TEXT -> {
-
+                    // TODO("Free text based game")
                 }
             }
         }
