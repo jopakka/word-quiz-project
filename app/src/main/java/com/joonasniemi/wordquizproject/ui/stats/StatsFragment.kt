@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.joonasniemi.wordquizproject.R
+import com.joonasniemi.wordquizproject.database.WordDatabase
 import com.joonasniemi.wordquizproject.databinding.FragmentMainMenuBinding
 import com.joonasniemi.wordquizproject.databinding.FragmentStatsBinding
 import com.joonasniemi.wordquizproject.network.WordsRepository
@@ -18,12 +19,15 @@ class StatsFragment : Fragment() {
 
     private lateinit var binding: FragmentStatsBinding
 
-    private val viewModel: StatsViewModel by lazy {
-        ViewModelProvider(this).get(StatsViewModel::class.java)
-    }
+    private lateinit var viewModel: StatsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
+
+        val dataSource = WordDatabase.getInstance(requireActivity()).wordDatabaseDao
+        val viewModelFactory = StatsViewModelFactory(dataSource)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(StatsViewModel::class.java)
+
         binding = FragmentStatsBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -38,7 +42,7 @@ class StatsFragment : Fragment() {
         binding.totalRightGuessesText.text = getString(R.string.total_right_guesses, 0)
         binding.totalWordsText.text = getString(R.string.words, 0)
 
-        viewModel.wordSet.observe(viewLifecycleOwner, Observer {
+        viewModel.wordSet.observe(viewLifecycleOwner, {
             it?.let {
                 adapter.data = it.shuffled().toSet()
                 binding.totalWordsText.text = getString(R.string.words, it.size)

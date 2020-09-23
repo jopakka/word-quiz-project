@@ -1,18 +1,28 @@
 package com.joonasniemi.wordquizproject.ui.mainmenu
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.room.CoroutinesRoom
+import androidx.room.RoomDatabase
+import com.joonasniemi.wordquizproject.database.RoomWord
+import com.joonasniemi.wordquizproject.database.WordDatabase
 import com.joonasniemi.wordquizproject.databinding.FragmentMainMenuBinding
 import com.joonasniemi.wordquizproject.network.GameArguments
 import com.joonasniemi.wordquizproject.network.Word
 import com.joonasniemi.wordquizproject.ui.game.GameType
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.Exception
 
 class MainMenuFragment : Fragment() {
     companion object {
@@ -39,6 +49,12 @@ class MainMenuFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        // TODO("delet this")
+        val words = WordDatabase.getInstance(requireContext()).wordDatabaseDao.getAll("finnish")
+        words.observe(this, {
+            Log.i(TAG, it.toString())
+        })
+
         setListeners()
 
         return binding.root
@@ -55,16 +71,32 @@ class MainMenuFragment : Fragment() {
             it.findNavController()
                 .navigate(
                     MainMenuFragmentDirections
-                        .actionMainMenuFragmentToGameFragment(GameArguments(getShuffledList(),
-                            binding.learningLanguagesSpinner.selectedItem.toString().decapitalize(Locale.ROOT),
-                        GameType.MULTI))
+                        .actionMainMenuFragmentToGameFragment(
+                            GameArguments(
+                                getShuffledList(),
+                                binding.learningLanguagesSpinner.selectedItem.toString()
+                                    .decapitalize(Locale.ROOT),
+                                GameType.MULTI
+                            )
+                        )
                 )
         }
 
         binding.statsButton.setOnClickListener {
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    WordDatabase.getInstance(requireContext()).wordDatabaseDao.clear()
+                } catch (e: Exception){
+                    Log.i(TAG, e.message.toString())
+                }
+            }
+
             it.findNavController()
-                .navigate(MainMenuFragmentDirections
-                    .actionMainMenuFragmentToStatsFragment())
+                .navigate(
+                    MainMenuFragmentDirections
+                        .actionMainMenuFragmentToStatsFragment()
+                )
         }
 
         /**

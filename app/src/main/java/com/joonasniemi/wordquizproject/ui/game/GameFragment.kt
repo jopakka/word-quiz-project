@@ -1,16 +1,21 @@
 package com.joonasniemi.wordquizproject.ui.game
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.joonasniemi.wordquizproject.R
+import com.joonasniemi.wordquizproject.database.WordDatabase
 import com.joonasniemi.wordquizproject.databinding.FragmentGameBinding
 import com.joonasniemi.wordquizproject.network.AfterMatchArguments
 import com.joonasniemi.wordquizproject.network.GameArguments
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class GameFragment : Fragment() {
     companion object {
@@ -22,12 +27,15 @@ class GameFragment : Fragment() {
     /**
      * Creates viewModel for fragment
      */
-    private val viewModel: GameViewModel by lazy {
-        ViewModelProvider(this).get(GameViewModel::class.java)
-    }
+    private lateinit var viewModel: GameViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+
+        val dataSource = WordDatabase.getInstance(requireActivity()).wordDatabaseDao
+        val factory = GameViewModelFactory(dataSource)
+        viewModel = ViewModelProvider(this, factory).get(GameViewModel::class.java)
+
         binding = FragmentGameBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -59,6 +67,16 @@ class GameFragment : Fragment() {
                         if(distance == 0){
                             viewModel.currentWord.value?.let {
                                 viewModel.userCorrectAnswers.add(it)
+                            }
+
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                try {
+                                    viewModel.currentWord.value?.let {
+                                        viewModel.updateRightGuessed(it.id, viewModel.answerLanguage)
+                                    }
+                                } catch (e: Exception){
+                                    Log.e(TAG, e.message.toString())
+                                }
                             }
 
                             // TODO("Show good job")
