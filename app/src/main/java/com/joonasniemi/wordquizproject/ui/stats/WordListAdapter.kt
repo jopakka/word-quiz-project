@@ -1,9 +1,5 @@
 package com.joonasniemi.wordquizproject.ui.stats
 
-import android.app.Application
-import android.content.Context
-import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,15 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.joonasniemi.wordquizproject.R
 import com.joonasniemi.wordquizproject.bindImage
 import com.joonasniemi.wordquizproject.bindWikipedia
-import com.joonasniemi.wordquizproject.database.WordDatabase
-import com.joonasniemi.wordquizproject.databinding.WordRecyclerItemBinding
+import com.joonasniemi.wordquizproject.database.words.WordDatabase
 import com.joonasniemi.wordquizproject.network.Word
-import kotlinx.android.synthetic.main.fragment_stats.view.*
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
-import org.w3c.dom.Text
 import java.util.*
 
 class WordListAdapter :

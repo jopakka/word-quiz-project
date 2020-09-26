@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.joonasniemi.wordquizproject.ui.Status"/>
+        <variable
+            name="sharedViewModel"
+            type="com.joonasniemi.wordquizproject.ui.SharedViewModel" />
+        <variable
+            name="ownViewModel"
+            type="com.joonasniemi.wordquizproject.ui.settings.SettingsViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+        <TextView
+            android:id="@+id/languages_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:text="@string/your_current_language"
+            style="@style/DefaultTextStyle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/languages_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:spinnerMode="dropdown"
+            app:languages="@{sharedViewModel.allWords}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/languages_text_view"
+            tools:listitem="@layout/support_simple_spinner_dropdown_item" />
+
+        <TextView
+            android:id="@+id/answer_language_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/big_margin"
+            android:text="@string/language_you_try_to_learn"
+            style="@style/DefaultTextStyle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/languages_spinner" />
+
+        <Spinner
+            android:id="@+id/answer_languages_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:spinnerMode="dropdown"
+            app:languages="@{sharedViewModel.allWords}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/answer_language_text_view"
+            tools:listitem="@layout/support_simple_spinner_dropdown_item"/>
+
+        <Button
+            android:id="@+id/save_button"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/big_margin"
+            android:enabled="false"
+            android:text="@string/save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/answer_languages_spinner" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/loading_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:translationZ="4dp"
+            android:visibility="@{ownViewModel.status == Status.DONE ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone">
+
+            <TextView
+                android:id="@+id/loading_background"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="#D7FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/loading_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/loading_icon_with_animation" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,13 +1,10 @@
 package com.joonasniemi.wordquizproject.ui.aftermatch
 
-import android.content.Context
-import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.joonasniemi.wordquizproject.network.AfterMatchArguments
+import com.joonasniemi.wordquizproject.utils.AfterMatchArguments
 
-class AfterMatchViewModel(val args: AfterMatchArguments): ViewModel() {
+class AfterMatchViewModel(args: AfterMatchArguments): ViewModel() {
     companion object {
         private const val TAG = "AfterMatchViewModel"
     }

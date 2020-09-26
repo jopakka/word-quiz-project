@@ -1,17 +1,12 @@
 package com.joonasniemi.wordquizproject.ui.game
 
-import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.*
-import com.joonasniemi.wordquizproject.database.RoomWord
-import com.joonasniemi.wordquizproject.database.WordDatabaseDao
-import com.joonasniemi.wordquizproject.databinding.FragmentGameBinding
+import com.joonasniemi.wordquizproject.database.words.RoomWord
+import com.joonasniemi.wordquizproject.database.words.WordDatabaseDao
 import com.joonasniemi.wordquizproject.network.Word
-import com.joonasniemi.wordquizproject.ui.stats.StatsViewModel
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
-
-enum class GameType { MULTI, TEXT }
 
 class GameViewModel(dataSource: WordDatabaseDao) : ViewModel() {
     companion object {
@@ -32,14 +27,10 @@ class GameViewModel(dataSource: WordDatabaseDao) : ViewModel() {
         get() = _currentWord
 
     var questionIndex = 0
-
-    lateinit var gameType: GameType
-
     val userCorrectAnswers = mutableListOf<Word>()
 
-    fun initGame(list: List<Word>, answerLanguage: String, gameType: GameType) {
+    fun initGame(list: List<Word>, answerLanguage: String) {
         words.addAll(list)
-        this.gameType = gameType
         this.answerLanguage = answerLanguage
     }
 

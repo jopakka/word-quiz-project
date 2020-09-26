@@ -1,12 +1,11 @@
-package com.joonasniemi.wordquizproject.database
+package com.joonasniemi.wordquizproject.database.words
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.joonasniemi.wordquizproject.network.Word
 
-@Database(entities = [RoomWord::class], version = 5, exportSchema = false)
+@Database(entities = [RoomWord::class], version = 6, exportSchema = false)
 abstract class WordDatabase : RoomDatabase() {
     abstract val wordDatabaseDao: WordDatabaseDao
 
@@ -14,7 +13,7 @@ abstract class WordDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: WordDatabase? = null
 
-        fun getInstance(context: Context): WordDatabase{
+        fun getInstance(context: Context): WordDatabase {
             synchronized(this){
                 var instance = INSTANCE
                 if(instance == null){

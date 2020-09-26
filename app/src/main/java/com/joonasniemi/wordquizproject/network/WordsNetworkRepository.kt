@@ -1,6 +1,6 @@
 package com.joonasniemi.wordquizproject.network
 
-class WordsRepository {
+class WordsNetworkRepository {
     companion object {
         private const val TAG = "WordsRepository"
     }

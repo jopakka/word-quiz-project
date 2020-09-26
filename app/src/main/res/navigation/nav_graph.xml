@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_mainMenuFragment_to_statsFragment"
             app:destination="@id/statsFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
@@ -24,7 +27,7 @@
         tools:layout="@layout/fragment_game">
         <argument
             android:name="gameArguments"
-            app:argType="com.joonasniemi.wordquizproject.network.GameArguments" />
+            app:argType="com.joonasniemi.wordquizproject.utils.GameArguments" />
         <action
             android:id="@+id/action_gameFragment_to_afterMatchFragment"
             app:destination="@id/afterMatchFragment"
@@ -42,15 +45,22 @@
             app:popUpTo="@id/mainMenuFragment" />
         <argument
             android:name="afterMatchArguments"
-            app:argType="com.joonasniemi.wordquizproject.network.AfterMatchArguments" />
+            app:argType="com.joonasniemi.wordquizproject.utils.AfterMatchArguments" />
     </fragment>
     <fragment
         android:id="@+id/statsFragment"
         android:name="com.joonasniemi.wordquizproject.ui.stats.StatsFragment"
         android:label="StatsFragment"
-        tools:layout="@layout/fragment_stats">
+        tools:layout="@layout/fragment_stats"/>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.joonasniemi.wordquizproject.ui.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings">
         <action
-            android:id="@+id/action_statsFragment_to_mainMenuFragment"
-            app:destination="@id/mainMenuFragment" />
+            android:id="@+id/action_settingsFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment"
+            app:popUpTo="@id/mainMenuFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

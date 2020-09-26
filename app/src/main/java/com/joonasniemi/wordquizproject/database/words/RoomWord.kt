@@ -1,15 +1,14 @@
-package com.joonasniemi.wordquizproject.database
+package com.joonasniemi.wordquizproject.database.words
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity(tableName = "words_table", primaryKeys = ["id", "to_lang"])
+@Entity(tableName = "words_table", primaryKeys = ["id", "answer_language"])
 data class RoomWord(
     val id: Int,
     val text: String,
     val detail: String?,
-    @ColumnInfo(name = "to_lang") val toLang: String,
+    @ColumnInfo(name = "answer_language") val answerLanguage: String,
     @ColumnInfo(name = "times_guessed") var timesGuessed: Int,
     @ColumnInfo(name = "right_guesses") var rightGuesses: Int
 )

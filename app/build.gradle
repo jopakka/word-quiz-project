@@ -48,16 +48,19 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    // Lifecycle scope
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha07"
+    // Fragment
+    implementation 'androidx.fragment:fragment-ktx:1.2.5'
+
+    // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$version_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$version_lifecycle"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
     // Test
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
-    // ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$version_lifecycle"
+    testImplementation "androidx.room:room-testing:$version_room"
 
     // Navigation
     implementation "android.arch.navigation:navigation-fragment-ktx:$version_navigation"
@@ -76,9 +79,6 @@ dependencies {
     implementation "androidx.room:room-runtime:$version_room"
     kapt "androidx.room:room-compiler:$version_room"
     implementation "androidx.room:room-ktx:$version_room"
-
-    // Room test helper
-    testImplementation "androidx.room:room-testing:$version_room"
 
     // Material design
     implementation "com.google.android.material:material:$version_material"

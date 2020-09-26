@@ -12,6 +12,7 @@
     <string name="select_language">Select language…</string>
     <string name="settings">Settings</string>
     <string name="stats">Stats</string>
+    <string name="save">Save</string>
 
     <string name="correct_none">Aww too bad</string>
     <string name="correct_under_half">You did OK</string>
@@ -28,4 +29,6 @@
 
     <string name="have_guessed_right">You have guessed this word</string>
     <string name="have_not_guessed">You don\'t have guessed this word</string>
+
+    <string name="error_updating_user">There was some error while updating languages. Please try again.</string>
 </resources>
