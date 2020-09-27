@@ -9,6 +9,9 @@
         <variable
             name="viewModel"
             type="com.joonasniemi.wordquizproject.ui.mainmenu.MainMenuViewModel" />
+        <variable
+            name="sharedViewModel"
+            type="com.joonasniemi.wordquizproject.ui.SharedViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,6 +29,26 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/stats_button"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stats"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/play_button" />
+
+        <Button
+            android:id="@+id/setttings_button"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stats_button" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/loading_layout"

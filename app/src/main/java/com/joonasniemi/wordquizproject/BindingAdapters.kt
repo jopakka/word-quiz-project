@@ -2,16 +2,15 @@ package com.joonasniemi.wordquizproject
 
 import android.text.method.LinkMovementMethod
 import android.view.View
-import android.widget.ImageView
-import android.widget.RadioButton
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.joonasniemi.wordquizproject.database.user.User
 import com.joonasniemi.wordquizproject.network.Word
 import com.joonasniemi.wordquizproject.ui.mainmenu.LanguagesSpinnerAdapter
 import java.util.*

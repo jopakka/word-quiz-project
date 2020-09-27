@@ -1,10 +1,12 @@
 package com.joonasniemi.wordquizproject.ui.mainmenu
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.joonasniemi.wordquizproject.R
@@ -14,17 +16,13 @@ import com.joonasniemi.wordquizproject.ui.SharedViewModel
 import com.joonasniemi.wordquizproject.ui.SharedViewModelFactory
 import com.joonasniemi.wordquizproject.utils.GameArguments
 import java.util.*
+import kotlin.properties.Delegates
 
 class MainMenuFragment : Fragment() {
     private lateinit var binding: FragmentMainMenuBinding
     private val mainMenuViewModel: MainMenuViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels {
         SharedViewModelFactory(requireActivity().application)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -38,28 +36,19 @@ class MainMenuFragment : Fragment() {
 
         sharedViewModel.user.observe(viewLifecycleOwner, {
             mainMenuViewModel.statusReady()
-            if (it == null)
-                findNavController().navigate(MainMenuFragmentDirections.actionMainMenuFragmentToSettingsFragment())
+            if(it == null) {
+                // TODO("Inform user that languages needs to set")
+                binding.playButton.isEnabled = false
+                binding.statsButton.isEnabled = false
+            } else {
+                binding.playButton.isEnabled = true
+                binding.statsButton.isEnabled = true
+            }
         })
 
         setListeners()
 
         return binding.root
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.options_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.options_stats ->
-                findNavController().navigate(MainMenuFragmentDirections.actionMainMenuFragmentToStatsFragment())
-            R.id.options_settings ->
-                findNavController().navigate(MainMenuFragmentDirections.actionMainMenuFragmentToSettingsFragment())
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     /**
@@ -81,6 +70,16 @@ class MainMenuFragment : Fragment() {
                                 GameArguments(list, answerLanguage)
                             )
                     )
+        }
+
+        binding.statsButton.setOnClickListener {
+            findNavController()
+                .navigate(MainMenuFragmentDirections.actionMainMenuFragmentToStatsFragment())
+        }
+
+        binding.setttingsButton.setOnClickListener {
+            findNavController()
+                .navigate(MainMenuFragmentDirections.actionMainMenuFragmentToSettingsFragment())
         }
     }
 
