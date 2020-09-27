@@ -7,6 +7,7 @@ import androidx.lifecycle.*
 import com.joonasniemi.wordquizproject.database.user.User
 import com.joonasniemi.wordquizproject.database.user.UserDatabase
 import com.joonasniemi.wordquizproject.ui.Status
+import kotlinx.coroutines.launch
 import kotlin.Exception
 
 class SettingsViewModel(application: Application) : ViewModel() {
@@ -35,19 +36,30 @@ class SettingsViewModel(application: Application) : ViewModel() {
         _status.value = Status.LOADING
     }
 
-    suspend fun insert(user: User) {
-        try {
-            userDatabase.insert(user)
-        } catch (sqlError: SQLiteConstraintException) {
-            Log.w(TAG, sqlError.message.toString())
-            Log.i(TAG, "Trying to update languages")
+    fun statusError() {
+        _status.value = Status.ERROR
+    }
+
+    fun insert(user: User) {
+        statusLoading()
+        viewModelScope.launch {
             try {
-                userDatabase.updateLanguages(user.language, user.answerLanguage)
+                userDatabase.insert(user)
+                statusReady()
+            } catch (sqlError: SQLiteConstraintException) {
+                Log.w(TAG, sqlError.message.toString())
+                Log.i(TAG, "Trying to update languages")
+                try {
+                    userDatabase.updateLanguages(user.language, user.answerLanguage)
+                    statusReady()
+                } catch (e: Exception) {
+                    Log.e(TAG, e.message.toString())
+                    statusError()
+                }
             } catch (e: Exception) {
                 Log.e(TAG, e.message.toString())
+                statusError()
             }
-        } catch (e: Exception) {
-            Log.e(TAG, e.message.toString())
         }
     }
 }

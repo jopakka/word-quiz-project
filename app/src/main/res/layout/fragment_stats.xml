@@ -20,6 +20,7 @@
             android:layout_marginStart="@dimen/big_margin"
             android:layout_marginTop="@dimen/normal_margin"
             android:layout_marginEnd="@dimen/big_margin"
+            app:statTexts="@{viewModel.totalGuesses}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,6 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/big_margin"
             android:layout_marginEnd="@dimen/big_margin"
+            app:statTexts="@{viewModel.rightGuesses}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/total_guesses_text"
@@ -44,10 +46,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/big_margin"
             android:layout_marginEnd="@dimen/big_margin"
+            app:statTexts="@{viewModel.wordCount}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/total_right_guesses_text"
-            tools:text="@string/words" />
+            tools:text="@string/total_words" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/words_recycler_view"

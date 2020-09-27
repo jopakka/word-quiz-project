@@ -8,7 +8,7 @@ import com.joonasniemi.wordquizproject.network.Word
 import com.joonasniemi.wordquizproject.network.WordsNetworkRepository
 import kotlinx.coroutines.launch
 
-enum class Status { LOADING, DONE }
+enum class Status { LOADING, DONE, ERROR }
 
 class SharedViewModel(application: Application) : ViewModel() {
     companion object {

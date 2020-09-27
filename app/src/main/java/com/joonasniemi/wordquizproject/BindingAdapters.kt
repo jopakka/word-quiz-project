@@ -93,3 +93,15 @@ fun bindAfterMatchText(textView: TextView, corrects: Int, max: Int){
         }
     }
 }
+
+@BindingAdapter("statTexts")
+fun bindStatTexts(textView: TextView, value: Int){
+    when(textView.id){
+        R.id.total_guesses_text ->
+            textView.text = textView.context.getString(R.string.total_guesses, value)
+        R.id.total_right_guesses_text ->
+            textView.text = textView.context.getString(R.string.total_right_guesses, value)
+        R.id.total_words_text ->
+            textView.text = textView.context.getString(R.string.total_words, value)
+    }
+}

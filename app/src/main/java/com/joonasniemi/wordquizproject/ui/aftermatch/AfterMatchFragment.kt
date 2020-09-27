@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.joonasniemi.wordquizproject.databinding.FragmentAfterMatchBinding
 import com.joonasniemi.wordquizproject.utils.AfterMatchArguments
@@ -17,9 +19,9 @@ class AfterMatchFragment : Fragment() {
     private lateinit var binding: FragmentAfterMatchBinding
     private lateinit var args: AfterMatchArguments
 
-    private val viewModel: AfterMatchViewModel by lazy {
+    private val viewModel: AfterMatchViewModel by viewModels {
         args = (arguments?.get("afterMatchArguments") as AfterMatchArguments)
-        ViewModelProvider(this, AfterMatchViewModelFactory(args)).get(AfterMatchViewModel::class.java)
+        AfterMatchViewModelFactory(args)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

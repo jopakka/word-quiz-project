@@ -8,6 +8,7 @@ import android.widget.AdapterView
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,6 +18,7 @@ import com.joonasniemi.wordquizproject.database.user.User
 import com.joonasniemi.wordquizproject.databinding.FragmentSettingsBinding
 import com.joonasniemi.wordquizproject.ui.SharedViewModel
 import com.joonasniemi.wordquizproject.ui.SharedViewModelFactory
+import com.joonasniemi.wordquizproject.ui.Status
 import com.joonasniemi.wordquizproject.ui.mainmenu.LanguagesSpinnerAdapter
 import kotlinx.coroutines.launch
 
@@ -26,7 +28,9 @@ class SettingsFragment : Fragment() {
     }
 
     private lateinit var binding: FragmentSettingsBinding
-    private lateinit var settingsViewModel: SettingsViewModel
+    private val settingsViewModel: SettingsViewModel by viewModels {
+        SettingsViewModelFactory(requireActivity().application)
+    }
     private val sharedViewModel: SharedViewModel by activityViewModels {
         SharedViewModelFactory(requireActivity().application)
     }
@@ -35,9 +39,6 @@ class SettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        val factory = SettingsViewModelFactory(requireActivity().application)
-        settingsViewModel = ViewModelProvider(this, factory).get(SettingsViewModel::class.java)
 
         binding = FragmentSettingsBinding.inflate(inflater)
         binding.lifecycleOwner = this
@@ -83,25 +84,17 @@ class SettingsFragment : Fragment() {
 
     private fun setListeners() {
         binding.saveButton.setOnClickListener {
-            settingsViewModel.statusLoading()
-
-            viewLifecycleOwner.lifecycleScope.launch {
-                settingsViewModel.insert(
-                    User(
-                        binding.languagesSpinner.selectedItem.toString(),
-                        binding.answerLanguagesSpinner.selectedItem.toString()
-                    )
+            settingsViewModel.insert(
+                User(
+                    binding.languagesSpinner.selectedItem.toString(),
+                    binding.answerLanguagesSpinner.selectedItem.toString()
                 )
-            }.invokeOnCompletion {
-                settingsViewModel.statusReady()
-                if(sharedViewModel.user.value != null)
-                    findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToMainMenuFragment())
-                else
-                    Snackbar.make(requireView(),
-                        requireActivity().getString(R.string.error_updating_user),
-                        Snackbar.LENGTH_SHORT)
-                        .show()
-            }
+            )
+            settingsViewModel.status.observe(viewLifecycleOwner, {
+                if(it == Status.DONE)
+                    findNavController()
+                        .navigate(SettingsFragmentDirections.actionSettingsFragmentToMainMenuFragment())
+            })
         }
 
         /**

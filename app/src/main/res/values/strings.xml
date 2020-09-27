@@ -25,7 +25,10 @@
 
     <string name="total_guesses">Total guesses: %1$d</string>
     <string name="total_right_guesses">Right guesses: %1$d</string>
-    <string name="words">Words: %1$d</string>
+    <string name="total_words">Words: %1$d</string>
+
+    <string name="guesses">Guesses: %1$d</string>
+    <string name="right_guesses">Right guesses: %1$d</string>
 
     <string name="have_guessed_right">You have guessed this word</string>
     <string name="have_not_guessed">You don\'t have guessed this word</string>

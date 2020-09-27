@@ -6,10 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.joonasniemi.wordquizproject.R
+import com.joonasniemi.wordquizproject.database.user.UserDatabase
 import com.joonasniemi.wordquizproject.database.words.WordDatabase
 import com.joonasniemi.wordquizproject.databinding.FragmentGameBinding
 import com.joonasniemi.wordquizproject.utils.AfterMatchArguments
@@ -26,16 +29,16 @@ class GameFragment : Fragment() {
     /**
      * Creates viewModel for fragment
      */
-    private lateinit var viewModel: GameViewModel
+    private val viewModel: GameViewModel by viewModels {
+        val wordDatabaseDao = WordDatabase.getInstance(requireActivity()).wordDatabaseDao
+        val userDatabaseDao = UserDatabase.getInstance(requireActivity()).userDatabaseDao
+        GameViewModelFactory(wordDatabaseDao, userDatabaseDao)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        val dataSource = WordDatabase.getInstance(requireActivity()).wordDatabaseDao
-        val factory = GameViewModelFactory(dataSource)
-        viewModel = ViewModelProvider(this, factory).get(GameViewModel::class.java)
 
         binding = FragmentGameBinding.inflate(inflater)
         binding.lifecycleOwner = this
@@ -46,10 +49,8 @@ class GameFragment : Fragment() {
     }
 
     private fun setGame() {
-        val args = (arguments?.get("gameArguments") as GameArguments)
-        Log.i(TAG, args.toString())
+        val args = arguments?.get("gameArguments") as GameArguments
         viewModel.initGame(args.words, args.answerLanguage)
-        viewModel.setQuestion()
 
         binding.submitButton.setOnClickListener {
             val checkedId = binding.answerRadioGroup.checkedRadioButtonId
@@ -78,6 +79,7 @@ class GameFragment : Fragment() {
                             viewModel.currentWord.value?.let {
                                 viewModel.updateRightGuessed(
                                     it.id,
+                                    viewModel.language,
                                     viewModel.answerLanguage
                                 )
                             }
