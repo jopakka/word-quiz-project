@@ -5,13 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.joonasniemi.wordquizproject.utils.AfterMatchArguments
 
 class AfterMatchViewModel(args: AfterMatchArguments): ViewModel() {
-    companion object {
-        private const val TAG = "AfterMatchViewModel"
-    }
-
     val corrects = args.correctWords.size
     val max = args.totalWords
-
 }
 
 /**

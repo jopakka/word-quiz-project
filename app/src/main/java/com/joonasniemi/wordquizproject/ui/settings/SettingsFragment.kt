@@ -9,10 +9,7 @@ import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.joonasniemi.wordquizproject.R
 import com.joonasniemi.wordquizproject.database.user.User
 import com.joonasniemi.wordquizproject.databinding.FragmentSettingsBinding
@@ -20,13 +17,8 @@ import com.joonasniemi.wordquizproject.ui.SharedViewModel
 import com.joonasniemi.wordquizproject.ui.SharedViewModelFactory
 import com.joonasniemi.wordquizproject.ui.Status
 import com.joonasniemi.wordquizproject.ui.mainmenu.LanguagesSpinnerAdapter
-import kotlinx.coroutines.launch
 
 class SettingsFragment : Fragment() {
-    companion object {
-        private const val TAG = "SettingsFragment"
-    }
-
     private lateinit var binding: FragmentSettingsBinding
     private val settingsViewModel: SettingsViewModel by viewModels {
         SettingsViewModelFactory(requireActivity().application)

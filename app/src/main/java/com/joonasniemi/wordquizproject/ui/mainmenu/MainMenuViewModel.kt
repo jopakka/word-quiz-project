@@ -6,10 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.joonasniemi.wordquizproject.ui.Status
 
 class MainMenuViewModel : ViewModel() {
-    companion object {
-        private const val TAG = "MainMenuViewModel"
-    }
-
     private val _status = MutableLiveData<Status>()
     val status: LiveData<Status>
         get() = _status
@@ -22,7 +18,7 @@ class MainMenuViewModel : ViewModel() {
         _status.value = Status.DONE
     }
 
-    fun statusLoading() {
+    private fun statusLoading() {
         _status.value = Status.LOADING
     }
 }

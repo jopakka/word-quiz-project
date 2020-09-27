@@ -11,10 +11,6 @@ import kotlinx.coroutines.launch
 enum class Status { LOADING, DONE, ERROR }
 
 class SharedViewModel(application: Application) : ViewModel() {
-    companion object {
-        private const val TAG = "SharedViewModel"
-    }
-
     private val userDao = UserDatabase.getInstance(application).userDatabaseDao
 
     private val _allWords = MutableLiveData<Set<Word>>()

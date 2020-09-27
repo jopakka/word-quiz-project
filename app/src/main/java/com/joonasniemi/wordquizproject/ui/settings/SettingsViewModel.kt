@@ -24,19 +24,15 @@ class SettingsViewModel(application: Application) : ViewModel() {
     val status: LiveData<Status>
         get() = _status
 
-    init {
-        statusReady()
-    }
-
-    fun statusReady() {
+    private fun statusReady() {
         _status.value = Status.DONE
     }
 
-    fun statusLoading() {
+    private fun statusLoading() {
         _status.value = Status.LOADING
     }
 
-    fun statusError() {
+    private fun statusError() {
         _status.value = Status.ERROR
     }
 

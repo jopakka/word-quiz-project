@@ -1,10 +1,6 @@
 package com.joonasniemi.wordquizproject.network
 
 class WordsNetworkRepository {
-    companion object {
-        private const val TAG = "WordsRepository"
-    }
-
     /**
      * Fetches set of words using [WordsApi] and sets correct translations to them
      */

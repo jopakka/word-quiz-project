@@ -1,6 +1,5 @@
 package com.joonasniemi.wordquizproject.ui.stats
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,13 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.joonasniemi.wordquizproject.R
 import com.joonasniemi.wordquizproject.bindImage
 import com.joonasniemi.wordquizproject.bindWikipedia
-import com.joonasniemi.wordquizproject.database.user.User
 import com.joonasniemi.wordquizproject.database.words.RoomWord
-import com.joonasniemi.wordquizproject.database.words.WordDatabase
 import com.joonasniemi.wordquizproject.network.Word
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.launch
 import java.util.*
 
 class WordListAdapter :
@@ -30,7 +24,7 @@ class WordListAdapter :
             notifyDataSetChanged()
         }
 
-    var user: User = User("", "")
+    var guessedWords = listOf<RoomWord>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -42,7 +36,7 @@ class WordListAdapter :
 
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
         val item = wordSet.elementAt(position)
-        holder.bind(user, item)
+        holder.bind(item, guessedWords)
     }
 
     override fun getItemCount() = wordSet.size
@@ -64,32 +58,25 @@ class WordListAdapter :
         private val guessesText: TextView = itemView.findViewById(R.id.guesses_text)
         private val rightGuessesText: TextView = itemView.findViewById(R.id.right_guesses_text)
 
-        fun bind(user: User, word: Word) {
+        fun bind(word: Word, guessedWords: List<RoomWord>) {
             title.text = word.text.capitalize(Locale.ROOT)
             bindWikipedia(wikipedia, word.wiki)
             bindImage(imageView, word.imgUrl)
 
-            val database = WordDatabase.getInstance(itemView.context).wordDatabaseDao
-            var words: List<RoomWord> = listOf()
-
-            CoroutineScope(Main).launch {
-                words = database.getAll(user.language, user.answerLanguage)
-            }.invokeOnCompletion {
-                when(val roomWord = words.firstOrNull { word.isTranslation(it.text) }){
-                    null -> {
-                        guessesText.text = itemView.context.getString(R.string.guesses, 0)
-                        rightGuessesText.text = itemView.context.getString(R.string.right_guesses, 0)
-                    }
-                    else -> {
-                        guessesText.text = itemView.context.getString(R.string.guesses, roomWord.timesGuessed)
-                        rightGuessesText.text = itemView.context.getString(R.string.right_guesses, roomWord.rightGuesses)
-                        if(roomWord.rightGuesses > 0){
-                            checkMark.setImageDrawable(ContextCompat.getDrawable(itemView.context, R.drawable.ic_baseline_check_24))
-                            DrawableCompat.setTint(checkMark.drawable, ContextCompat.getColor(itemView.context, android.R.color.holo_green_light))
-                        } else {
-                            checkMark.setImageDrawable(ContextCompat.getDrawable(itemView.context, R.drawable.ic_baseline_clear_24))
-                            DrawableCompat.setTint(checkMark.drawable, ContextCompat.getColor(itemView.context, android.R.color.holo_red_dark))
-                        }
+            when(val roomWord = guessedWords.firstOrNull { word.isTranslation(it.text) }){
+                null -> {
+                    guessesText.text = itemView.context.getString(R.string.guesses, 0)
+                    rightGuessesText.text = itemView.context.getString(R.string.right_guesses, 0)
+                }
+                else -> {
+                    guessesText.text = itemView.context.getString(R.string.guesses, roomWord.timesGuessed)
+                    rightGuessesText.text = itemView.context.getString(R.string.right_guesses, roomWord.rightGuesses)
+                    if(roomWord.rightGuesses > 0){
+                        checkMark.setImageDrawable(ContextCompat.getDrawable(itemView.context, R.drawable.ic_baseline_check_24))
+                        DrawableCompat.setTint(checkMark.drawable, ContextCompat.getColor(itemView.context, android.R.color.holo_green_light))
+                    } else {
+                        checkMark.setImageDrawable(ContextCompat.getDrawable(itemView.context, R.drawable.ic_baseline_clear_24))
+                        DrawableCompat.setTint(checkMark.drawable, ContextCompat.getColor(itemView.context, android.R.color.holo_red_dark))
                     }
                 }
             }

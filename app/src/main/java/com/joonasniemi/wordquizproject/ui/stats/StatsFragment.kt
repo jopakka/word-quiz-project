@@ -1,34 +1,24 @@
 package com.joonasniemi.wordquizproject.ui.stats
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.joonasniemi.wordquizproject.database.user.User
-import com.joonasniemi.wordquizproject.database.user.UserDatabase
-import com.joonasniemi.wordquizproject.database.words.WordDatabase
 import com.joonasniemi.wordquizproject.databinding.FragmentStatsBinding
-import com.joonasniemi.wordquizproject.network.Word
 import com.joonasniemi.wordquizproject.ui.SharedViewModel
 import com.joonasniemi.wordquizproject.ui.SharedViewModelFactory
-import kotlinx.coroutines.launch
+import com.joonasniemi.wordquizproject.ui.Status
 
 class StatsFragment : Fragment() {
-    companion object{
-        private const val TAG = "StatsFragment"
-    }
-
     private lateinit var binding: FragmentStatsBinding
 
-    private val statsViewModel: StatsViewModel by viewModels()
+    private val statsViewModel: StatsViewModel by viewModels {
+        StatsViewModelFactory(requireActivity().application)
+    }
     private val sharedViewModel: SharedViewModel by activityViewModels {
         SharedViewModelFactory(requireActivity().application)
     }
@@ -42,15 +32,16 @@ class StatsFragment : Fragment() {
 
         val adapter = WordListAdapter()
 
-        var userLanguage = ""
         var userAnswerLanguage = ""
 
         sharedViewModel.user.observe(viewLifecycleOwner, {
-            statsViewModel.totalGuesses.value = it.totalGuesses
-            statsViewModel.rightGuesses.value = it.rightGuesses
-            userLanguage = it.language
             userAnswerLanguage = it.answerLanguage
-            adapter.user = it
+            statsViewModel.initGuessedWords(it.language, it.answerLanguage)
+        })
+
+        statsViewModel.status.observe(viewLifecycleOwner, {
+            if(it == Status.DONE)
+                adapter.guessedWords = statsViewModel.guessedWords
         })
 
         sharedViewModel.allWords.observe(viewLifecycleOwner, {
