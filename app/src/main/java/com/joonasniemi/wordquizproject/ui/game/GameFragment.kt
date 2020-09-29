@@ -43,8 +43,8 @@ class GameFragment : Fragment() {
 
         binding = FragmentGameBinding.inflate(inflater)
         binding.lifecycleOwner = this
-        binding.quiz = viewModel.quiz
-        viewModel.quiz.setQuestion()
+        binding.quiz = Quiz
+        Quiz.setQuestion()
 
         setListeners()
 
@@ -62,7 +62,7 @@ class GameFragment : Fragment() {
                     else -> 0
                 }
 
-                if (viewModel.quiz.checkAnswer(answerIndex)) {
+                if (Quiz.checkAnswer(answerIndex)) {
                     // TODO("Show good job")
                     viewModel.correctAnswer{ nextQuestion() }
                 } else {
@@ -74,18 +74,14 @@ class GameFragment : Fragment() {
     }
 
     private fun nextQuestion(){
-        if (viewModel.quiz.nextQuestion()) {
+        if (Quiz.nextQuestion()) {
             binding.answerRadioGroup.clearCheck()
             viewModel.setQuestion()
             binding.invalidateAll()
         } else {
             findNavController().navigate(
                 GameFragmentDirections
-                    .actionGameFragmentToAfterMatchFragment(
-                        AfterMatchArguments(viewModel.quiz.userCorrectAnswers, viewModel.quiz.maxQuestions)
-                    )
-            )
-            viewModel.quiz.destroy()
+                    .actionGameFragmentToAfterMatchFragment())
         }
     }
 }

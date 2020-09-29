@@ -48,7 +48,7 @@
             app:layout_constraintTop_toBottomOf="@+id/play_button" />
 
         <Button
-            android:id="@+id/setttings_button"
+            android:id="@+id/settings_button"
             style="@style/ButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,6 +56,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stats_button" />
+
+        <TextView
+            android:id="@+id/language_reminder_text"
+            style="@style/DefaultTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:text="@string/language_reminder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settings_button" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/loading_layout"

@@ -46,9 +46,11 @@ class MainMenuFragment : Fragment() {
                 // TODO("Inform user that languages needs to set")
                 binding.playButton.isEnabled = false
                 binding.statsButton.isEnabled = false
+                binding.languageReminderText.visibility = View.VISIBLE
             } else {
                 binding.playButton.isEnabled = true
                 binding.statsButton.isEnabled = true
+                binding.languageReminderText.visibility = View.GONE
             }
         })
 
@@ -69,7 +71,7 @@ class MainMenuFragment : Fragment() {
                 sharedViewModel.user.value?.answerLanguage?.decapitalize(Locale.ROOT)
             val list = getShuffledList()
             if (answerLanguage != null && list != null){
-                Quiz.instance.initGame(list, answerLanguage)
+                Quiz.initGame(list, answerLanguage)
                 it.findNavController()
                     .navigate(
                         MainMenuFragmentDirections.actionMainMenuFragmentToGameFragment())
@@ -81,7 +83,7 @@ class MainMenuFragment : Fragment() {
                 .navigate(MainMenuFragmentDirections.actionMainMenuFragmentToStatsFragment())
         }
 
-        binding.setttingsButton.setOnClickListener {
+        binding.settingsButton.setOnClickListener {
             findNavController()
                 .navigate(MainMenuFragmentDirections.actionMainMenuFragmentToSettingsFragment())
         }

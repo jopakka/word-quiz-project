@@ -45,9 +45,6 @@
             android:id="@+id/action_afterMatchFragment_to_gameFragment"
             app:destination="@id/gameFragment"
             app:popUpTo="@id/mainMenuFragment" />
-        <argument
-            android:name="afterMatchArguments"
-            app:argType="com.joonasniemi.wordquizproject.utils.AfterMatchArguments" />
     </fragment>
     <fragment
         android:id="@+id/statsFragment"

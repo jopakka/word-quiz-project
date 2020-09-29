@@ -7,18 +7,15 @@ package com.joonasniemi.wordquizproject.ui.aftermatch
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.joonasniemi.wordquizproject.game.Quiz
+import com.joonasniemi.wordquizproject.network.Word
 import com.joonasniemi.wordquizproject.utils.AfterMatchArguments
 
-class AfterMatchViewModel(args: AfterMatchArguments): ViewModel() {
-    val corrects = args.correctWords.size
-    val max = args.totalWords
-}
+class AfterMatchViewModel : ViewModel() {
+    val corrects: Int = Quiz.userCorrectAnswers.size
+    val max: Int = Quiz.maxQuestions
 
-/**
- * ViewModelFactory for passing arguments from fragment
- */
-class AfterMatchViewModelFactory(private val args: AfterMatchArguments) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return modelClass.getConstructor(AfterMatchArguments::class.java).newInstance(args)
+    init {
+        Quiz.resetGame()
     }
 }

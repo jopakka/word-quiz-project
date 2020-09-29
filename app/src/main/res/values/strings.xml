@@ -31,4 +31,9 @@
 
     <string name="guesses">Guesses: %1$d</string>
     <string name="right_guesses">Right guesses: %1$d</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="language_reminder">You need to set your language preferences in the settings before you are able to play.</string>
 </resources>

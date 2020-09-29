@@ -5,25 +5,13 @@
 
 package com.joonasniemi.wordquizproject.game
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.joonasniemi.wordquizproject.network.Word
 
-class Quiz {
-
-    fun destroy() {
-        INSTANCE = null
-    }
-
-    companion object {
-        private var INSTANCE: Quiz? = null
-        val instance: Quiz
-            get() {
-                if(INSTANCE == null)
-                    INSTANCE = Quiz()
-                return INSTANCE!!
-            }
-    }
+object Quiz {
+    private const val TAG = "Quiz"
 
     private val words = mutableListOf<Word>()
     val maxQuestions: Int
@@ -35,39 +23,56 @@ class Quiz {
     lateinit var language: String
         private set
 
-    private val _answers = MutableLiveData<List<String>>()
+    private val ANSWERS = MutableLiveData<List<String>>()
     val answers: LiveData<List<String>>
-        get() = _answers
+        get() = ANSWERS
 
-    private val _currentWord = MutableLiveData<Word>()
+    private val CURRENT_WORD = MutableLiveData<Word>()
     val currentWord: LiveData<Word>
-        get() = _currentWord
+        get() = CURRENT_WORD
 
     var questionIndex = 0
     val userCorrectAnswers = mutableListOf<Word>()
+    private var STARTED: Boolean = false
+    val started: Boolean
+        get() = STARTED
 
-    fun initGame(list: List<Word>, answerLanguage: String){
+    fun resetGame() {
+        words.clear()
+        answerLanguage = ""
+        language = ""
+        ANSWERS.value = null
+        CURRENT_WORD.value = null
+        questionIndex = 0
+        userCorrectAnswers.clear()
+        STARTED = false
+    }
+
+    fun initGame(list: List<Word>, answerLanguage: String) {
+        if (started) return
         words.addAll(list)
         this.answerLanguage = answerLanguage
         language = list.first().lang
+        STARTED = true
     }
 
     fun setQuestion() {
-        _currentWord.value = words[questionIndex]
+        CURRENT_WORD.value = words[questionIndex]
         setAnswers()
     }
 
     private fun setAnswers() {
         val correct = currentWord.value?.translations?.first { it.lang == answerLanguage }
+        Log.i(TAG, correct.toString())
         correct?.let { corr ->
             val mutList: MutableList<String> = mutableListOf()
             mutList.add(corr.text)
             while (mutList.size < 4) {
-                val newAnswer = corr.text.replaceFirst("aeiouyäö".random(), "aeiouy".random(), true)
+                val newAnswer = corr.text.replaceFirst("aeiouyäöå".random(), "aeiouy".random(), true)
                 if (!mutList.contains(newAnswer))
                     mutList.add(newAnswer)
             }
-            _answers.value = mutList.shuffled()
+            ANSWERS.value = mutList.shuffled()
         }
     }
 
@@ -77,11 +82,11 @@ class Quiz {
     }
 
     fun checkAnswer(answerIndex: Int): Boolean {
-        if(checkDistance(answers.value?.get(answerIndex), answerLanguage) == 0){
+        if (checkDistance(answers.value?.get(answerIndex), answerLanguage) == 0) {
             currentWord.value?.let {
                 userCorrectAnswers.add(it)
+                return true
             }
-            return true
         }
         return false
     }

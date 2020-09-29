@@ -22,20 +22,18 @@ class GameViewModel(private val wordDatabase: WordDatabaseDao, private val userD
         private const val TAG = "GameViewModel"
     }
 
-    val quiz: Quiz = Quiz.instance
-
     fun setQuestion() {
-        quiz.setQuestion()
+        Quiz.setQuestion()
 
         viewModelScope.launch {
             try{
-                quiz.currentWord.value?.let {
+                Quiz.currentWord.value?.let {
                     userDatabase.updateTotalGuesses()
-                    if(get(it.id, it.lang, quiz.answerLanguage) == null)
+                    if(get(it.id, it.lang, Quiz.answerLanguage) == null)
                         insert(RoomWord(it.id, it.text, it.detail, it.lang,
-                            quiz.answerLanguage, 1, 0))
+                            Quiz.answerLanguage, 1, 0))
                     else
-                        updateTimesGuessed(it.id, it.lang, quiz.answerLanguage)
+                        updateTimesGuessed(it.id, it.lang, Quiz.answerLanguage)
                 }
             } catch (e: Exception){
                 Log.e(TAG, e.message.toString())
@@ -46,11 +44,11 @@ class GameViewModel(private val wordDatabase: WordDatabaseDao, private val userD
     fun correctAnswer(onCompleted: () -> Unit) {
         viewModelScope.launch {
             try {
-                quiz.currentWord.value?.let {
+                Quiz.currentWord.value?.let {
                     updateRightGuessed(
                         it.id,
-                        quiz.language,
-                        quiz.answerLanguage
+                        Quiz.language,
+                        Quiz.answerLanguage
                     )
                 }
             } catch (e: Exception) {

@@ -12,16 +12,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.joonasniemi.wordquizproject.databinding.FragmentAfterMatchBinding
+import com.joonasniemi.wordquizproject.game.Quiz
 import com.joonasniemi.wordquizproject.utils.AfterMatchArguments
 
 class AfterMatchFragment : Fragment() {
     private lateinit var binding: FragmentAfterMatchBinding
-    private lateinit var args: AfterMatchArguments
 
-    private val viewModel: AfterMatchViewModel by viewModels {
-        args = (arguments?.get("afterMatchArguments") as AfterMatchArguments)
-        AfterMatchViewModelFactory(args)
-    }
+    private val viewModel: AfterMatchViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
