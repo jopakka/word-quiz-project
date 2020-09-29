@@ -7,15 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.joonasniemi.wordquizproject.R
 import com.joonasniemi.wordquizproject.database.user.UserDatabase
 import com.joonasniemi.wordquizproject.database.words.WordDatabase
 import com.joonasniemi.wordquizproject.databinding.FragmentGameBinding
+import com.joonasniemi.wordquizproject.game.Quiz
 import com.joonasniemi.wordquizproject.utils.AfterMatchArguments
-import com.joonasniemi.wordquizproject.utils.GameArguments
-import kotlinx.coroutines.launch
 
 class GameFragment : Fragment() {
     companion object {
@@ -40,16 +38,15 @@ class GameFragment : Fragment() {
 
         binding = FragmentGameBinding.inflate(inflater)
         binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-        setGame()
+        binding.quiz = viewModel.quiz
+        viewModel.quiz.setQuestion()
+
+        setListeners()
 
         return binding.root
     }
 
-    private fun setGame() {
-        val args = arguments?.get("gameArguments") as GameArguments
-        viewModel.initGame(args.words, args.answerLanguage)
-
+    private fun setListeners() {
         binding.submitButton.setOnClickListener {
             val checkedId = binding.answerRadioGroup.checkedRadioButtonId
             if (checkedId != -1) {
@@ -60,44 +57,19 @@ class GameFragment : Fragment() {
                     else -> 0
                 }
 
-                val distance = checkDistance(
-                    viewModel.answers.value
-                        ?.get(answerIndex), args.answerLanguage
-                )
-
-                if (distance == 0) {
-                    viewModel.currentWord.value?.let {
-                        viewModel.userCorrectAnswers.add(it)
-                    }
-
+                if (viewModel.quiz.checkAnswer(answerIndex)) {
                     // TODO("Show good job")
-
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        try {
-                            viewModel.currentWord.value?.let {
-                                viewModel.updateRightGuessed(
-                                    it.id,
-                                    viewModel.language,
-                                    viewModel.answerLanguage
-                                )
-                            }
-                        } catch (e: Exception) {
-                            Log.e(TAG, e.message.toString())
-                        }
-                    }.invokeOnCompletion {
-                        nextQuestion(args.words.size)
-                    }
+                    viewModel.correctAnswer{ nextQuestion() }
                 } else {
                     // TODO("Show it's false answer")
-                    nextQuestion(args.words.size)
+                    nextQuestion()
                 }
             }
         }
     }
 
-    private fun nextQuestion(maxQuestions: Int) {
-        viewModel.questionIndex++
-        if (viewModel.questionIndex < maxQuestions) {
+    private fun nextQuestion(){
+        if (viewModel.quiz.nextQuestion()) {
             binding.answerRadioGroup.clearCheck()
             viewModel.setQuestion()
             binding.invalidateAll()
@@ -105,15 +77,10 @@ class GameFragment : Fragment() {
             findNavController().navigate(
                 GameFragmentDirections
                     .actionGameFragmentToAfterMatchFragment(
-                        AfterMatchArguments(viewModel.userCorrectAnswers, maxQuestions)
+                        AfterMatchArguments(viewModel.quiz.userCorrectAnswers, viewModel.quiz.maxQuestions)
                     )
             )
+            viewModel.quiz.destroy()
         }
-    }
-
-    private fun checkDistance(answer: String?, language: String): Int? {
-        return viewModel.currentWord.value?.translations
-            ?.first { it.lang == language }
-            ?.editDistance(answer)
     }
 }

@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.joonasniemi.wordquizproject.R
 import com.joonasniemi.wordquizproject.databinding.FragmentMainMenuBinding
+import com.joonasniemi.wordquizproject.game.Quiz
 import com.joonasniemi.wordquizproject.network.Word
 import com.joonasniemi.wordquizproject.ui.SharedViewModel
 import com.joonasniemi.wordquizproject.ui.SharedViewModelFactory
@@ -62,14 +63,12 @@ class MainMenuFragment : Fragment() {
             val answerLanguage =
                 sharedViewModel.user.value?.answerLanguage?.decapitalize(Locale.ROOT)
             val list = getShuffledList()
-            if (answerLanguage != null && list != null)
+            if (answerLanguage != null && list != null){
+                Quiz.instance.initGame(list, answerLanguage)
                 it.findNavController()
                     .navigate(
-                        MainMenuFragmentDirections
-                            .actionMainMenuFragmentToGameFragment(
-                                GameArguments(list, answerLanguage)
-                            )
-                    )
+                        MainMenuFragmentDirections.actionMainMenuFragmentToGameFragment())
+            }
         }
 
         binding.statsButton.setOnClickListener {

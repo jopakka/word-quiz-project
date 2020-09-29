@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="viewModel"
-            type="com.joonasniemi.wordquizproject.ui.game.GameViewModel" />
+            name="quiz"
+            type="com.joonasniemi.wordquizproject.game.Quiz" />
     </data>
 
     <ScrollView
@@ -23,9 +23,9 @@
                 android:id="@+id/word_image"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:contentDescription="@{viewModel.currentWord.text}"
+                android:contentDescription="@{quiz.currentWord.text}"
                 android:scaleType="fitCenter"
-                app:imageUrl="@{viewModel.currentWord.imgUrl}"
+                app:imageUrl="@{quiz.currentWord.imgUrl}"
                 app:layout_constraintBottom_toTopOf="@+id/guideline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/guideline"
-                app:wordText="@{viewModel.currentWord}"
+                app:wordText="@{quiz.currentWord}"
                 tools:text="Kaivo" />
 
             <androidx.constraintlayout.widget.Guideline
@@ -68,28 +68,28 @@
                     android:id="@+id/answer_radio_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:answerText="@{viewModel.answers[0]}"
+                    app:answerText="@{quiz.answers[0]}"
                     tools:text="Wall" />
 
                 <RadioButton
                     android:id="@+id/answer_radio_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:answerText="@{viewModel.answers[1]}"
+                    app:answerText="@{quiz.answers[1]}"
                     tools:text="Well" />
 
                 <RadioButton
                     android:id="@+id/answer_radio_3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:answerText="@{viewModel.answers[2]}"
+                    app:answerText="@{quiz.answers[2]}"
                     tools:text="Woll" />
 
                 <RadioButton
                     android:id="@+id/answer_radio_4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:answerText="@{viewModel.answers[3]}"
+                    app:answerText="@{quiz.answers[3]}"
                     tools:text="Walle" />
 
             </RadioGroup>
