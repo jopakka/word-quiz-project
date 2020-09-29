@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Joonas Niemi
+  ~ 1908997
+  -->
+
 <resources>
     <dimen name="normal_padding">8dp</dimen>
     <dimen name="big_padding">16dp</dimen>

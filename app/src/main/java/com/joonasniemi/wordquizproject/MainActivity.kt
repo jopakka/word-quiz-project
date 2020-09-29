@@ -1,3 +1,8 @@
+/*
+ * Joonas Niemi
+ * 1908997
+ */
+
 package com.joonasniemi.wordquizproject
 
 import androidx.appcompat.app.AppCompatActivity

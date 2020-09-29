@@ -1,3 +1,8 @@
+/*
+ * Joonas Niemi
+ * 1908997
+ */
+
 package com.joonasniemi.wordquizproject.ui.stats
 
 import android.content.Context

@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Joonas Niemi
+  ~ 1908997
+  -->
+
 <resources>
     <string name="app_name">Guess That Word</string>
     <string name="your_current_language">Your current language</string>

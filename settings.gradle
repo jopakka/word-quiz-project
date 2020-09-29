@@ -1,2 +1,7 @@
+/*
+ * Joonas Niemi
+ * 1908997
+ */
+
 include ':app'
 rootProject.name = "WordQuizProject"
