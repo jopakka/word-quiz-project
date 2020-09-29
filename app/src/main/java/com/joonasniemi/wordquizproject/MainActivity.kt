@@ -21,17 +21,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if(Quiz.started){
-            Log.i("MainMenu", "Game is on")
-            val builder = AlertDialog.Builder(this)
+            AlertDialog.Builder(this)
                 .setCancelable(false)
-                .setTitle("Do you really wanna quit the game?")
+                .setTitle(R.string.inform_quitting_game)
                 .setPositiveButton(R.string.yes) { _, _ ->
                     super.onBackPressed()
                     Quiz.resetGame()
                 }.setNegativeButton(R.string.no) { dialog, _ ->
                     dialog.cancel()
-                }
-            builder.create().show()
+                }.create().show()
         } else
             super.onBackPressed()
     }
