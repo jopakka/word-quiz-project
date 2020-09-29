@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Joonas Niemi
+  ~ 1909887
+  -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="@dimen/radio_button_corner"/>
+    <stroke android:color="@android:color/black"
+        android:width="1dp"/>
+</shape>

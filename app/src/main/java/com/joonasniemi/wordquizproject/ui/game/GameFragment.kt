@@ -10,9 +10,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.view.forEach
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.radiobutton.MaterialRadioButton
 import com.joonasniemi.wordquizproject.R
 import com.joonasniemi.wordquizproject.database.user.UserDatabase
 import com.joonasniemi.wordquizproject.database.words.WordDatabase
@@ -68,6 +74,15 @@ class GameFragment : Fragment() {
                 } else {
                     // TODO("Show it's false answer")
                     nextQuestion()
+                }
+            }
+        }
+
+        binding.answerRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+            group.forEach {
+                when((it as RadioButton).isChecked){
+                    true -> it.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.primary_text_dark))
+                    false -> it.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.primary_text_light))
                 }
             }
         }

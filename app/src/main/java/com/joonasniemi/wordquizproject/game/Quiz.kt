@@ -63,7 +63,6 @@ object Quiz {
 
     private fun setAnswers() {
         val correct = currentWord.value?.translations?.first { it.lang == answerLanguage }
-        Log.i(TAG, correct.toString())
         correct?.let { corr ->
             val mutList: MutableList<String> = mutableListOf()
             mutList.add(corr.text)

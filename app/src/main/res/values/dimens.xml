@@ -10,4 +10,6 @@
     <dimen name="normal_margin">8dp</dimen>
     <dimen name="big_margin">16dp</dimen>
     <dimen name="very_big_margin">32dp</dimen>
+    <dimen name="very_big_padding">32dp</dimen>
+    <dimen name="radio_button_corner">4dp</dimen>
 </resources>

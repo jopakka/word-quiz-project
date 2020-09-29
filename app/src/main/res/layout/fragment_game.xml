@@ -24,32 +24,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/word_image"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView2"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:contentDescription="@{quiz.currentWord.text}"
-                android:scaleType="fitCenter"
-                app:imageUrl="@{quiz.currentWord.imgUrl}"
                 app:layout_constraintBottom_toTopOf="@+id/guideline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/word_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/normal_margin"
-                android:layout_marginTop="@dimen/normal_margin"
-                android:layout_marginEnd="@dimen/normal_margin"
-                style="@style/BigTextStyle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/guideline"
-                app:wordText="@{quiz.currentWord}"
-                tools:text="Kaivo" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/word_image"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:contentDescription="@{quiz.currentWord.text}"
+                        android:scaleType="fitCenter"
+                        app:imageUrl="@{quiz.currentWord.imgUrl}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+                    <TextView
+                        android:id="@+id/word_text"
+                        style="@style/BigTextStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#86000000"
+                        android:paddingStart="@dimen/very_big_padding"
+                        android:paddingEnd="@dimen/very_big_padding"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:wordText="@{quiz.currentWord}"
+                        tools:text="Kaivo" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline"
@@ -63,23 +81,28 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/very_big_margin"
-                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/very_big_margin"
                 android:layout_marginEnd="@dimen/very_big_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/word_text">
+                app:layout_constraintTop_toTopOf="@+id/guideline">
 
                 <RadioButton
                     android:id="@+id/answer_radio_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    style="@style/CustomRadioButtonStyle"
                     app:answerText="@{quiz.answers[0]}"
-                    tools:text="Wall" />
+                    tools:text="Wall"
+                    tools:checked="true"/>
 
                 <RadioButton
                     android:id="@+id/answer_radio_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    style="@style/CustomRadioButtonStyle"
                     app:answerText="@{quiz.answers[1]}"
                     tools:text="Well" />
 
@@ -87,6 +110,8 @@
                     android:id="@+id/answer_radio_3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    style="@style/CustomRadioButtonStyle"
                     app:answerText="@{quiz.answers[2]}"
                     tools:text="Woll" />
 
@@ -94,6 +119,7 @@
                     android:id="@+id/answer_radio_4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/CustomRadioButtonStyle"
                     app:answerText="@{quiz.answers[3]}"
                     tools:text="Walle" />
 
