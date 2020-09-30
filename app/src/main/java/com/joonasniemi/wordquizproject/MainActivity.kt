@@ -6,9 +6,13 @@
 package com.joonasniemi.wordquizproject
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import com.joonasniemi.wordquizproject.game.Quiz
+import com.joonasniemi.wordquizproject.ui.SharedViewModel
+import com.joonasniemi.wordquizproject.ui.SharedViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +21,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
+    /**
+     * If game is running then asks user that is (s)he really want to quit game
+     */
     override fun onBackPressed() {
         if(Quiz.started){
             AlertDialog.Builder(this)

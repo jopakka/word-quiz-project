@@ -15,8 +15,14 @@ import androidx.navigation.fragment.findNavController
 import com.joonasniemi.wordquizproject.databinding.FragmentAfterMatchBinding
 
 class AfterMatchFragment : Fragment() {
+    /**
+     * Layouts bindings
+     */
     private lateinit var binding: FragmentAfterMatchBinding
 
+    /**
+     * Creates viewModel for fragment
+     */
     private val viewModel: AfterMatchViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +37,9 @@ class AfterMatchFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Set necessary listeners for binding objects
+     */
     private fun setListeners(){
         binding.mainMenuButton.setOnClickListener {
             findNavController().navigateUp()

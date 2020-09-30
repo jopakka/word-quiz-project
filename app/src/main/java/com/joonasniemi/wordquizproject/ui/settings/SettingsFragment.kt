@@ -17,6 +17,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.joonasniemi.wordquizproject.R
 import com.joonasniemi.wordquizproject.database.user.User
+import com.joonasniemi.wordquizproject.database.user.UserDatabase
 import com.joonasniemi.wordquizproject.databinding.FragmentSettingsBinding
 import com.joonasniemi.wordquizproject.ui.SharedViewModel
 import com.joonasniemi.wordquizproject.ui.SharedViewModelFactory
@@ -24,10 +25,22 @@ import com.joonasniemi.wordquizproject.ui.Status
 import com.joonasniemi.wordquizproject.ui.mainmenu.LanguagesSpinnerAdapter
 
 class SettingsFragment : Fragment() {
+    /**
+     * Layouts bindings
+     */
     private lateinit var binding: FragmentSettingsBinding
+
+    /**
+     * Creates viewModel for fragment
+     */
     private val settingsViewModel: SettingsViewModel by viewModels {
-        SettingsViewModelFactory(requireActivity().application)
+        val database = UserDatabase.getInstance(requireContext()).userDatabaseDao
+        SettingsViewModelFactory(database)
     }
+
+    /**
+     * Gets sharedViewModel from activityViewModels
+     */
     private val sharedViewModel: SharedViewModel by activityViewModels {
         SharedViewModelFactory(requireActivity().application)
     }
@@ -55,13 +68,20 @@ class SettingsFragment : Fragment() {
 
         sharedViewModel.user.observe(viewLifecycleOwner, {
             if(it != null){
-                settingsViewModel.selectedLanguage.value = it.language
-                settingsViewModel.selectedAnswerLanguage.value = it.answerLanguage
-                setEverySpinnerValue()
+                if(settingsViewModel.selectedLanguage.value == null
+                    && settingsViewModel.selectedAnswerLanguage.value == null){
+                    settingsViewModel.selectedLanguage.value = it.language
+                    settingsViewModel.selectedAnswerLanguage.value = it.answerLanguage
+                    setEverySpinnerValue()
+                }
             }
         })
     }
 
+    /**
+     * Set placeholder item for spinner language list.
+     * Adds all languages from sharedViewModels allWords LiveData list
+     */
     private fun initSpinner(spinner: Spinner){
         val list = mutableListOf(spinner.context.getString(R.string.select_language))
         list.addAll(sharedViewModel.allWords.value?.map { w -> w.lang }?.sorted()?.distinct() ?: emptyList())
@@ -74,12 +94,21 @@ class SettingsFragment : Fragment() {
         setSpinnerValue(binding.answerLanguagesSpinner, settingsViewModel.selectedAnswerLanguage.value)
     }
 
+    /**
+     * Sets [spinner] selected item to correspond [language]
+     */
     private fun setSpinnerValue(spinner: Spinner, language: String?) {
         val pos = (binding.languagesSpinner.adapter as LanguagesSpinnerAdapter).getPosition(language)
         spinner.setSelection(pos)
     }
 
+    /**
+     * Initialize listeners to different elements
+     */
     private fun setListeners() {
+        /**
+         * Save buttons onCLickListener
+         */
         binding.saveButton.setOnClickListener {
             settingsViewModel.insert(
                 User(

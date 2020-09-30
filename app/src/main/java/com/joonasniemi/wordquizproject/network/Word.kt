@@ -20,31 +20,53 @@ data class Word(
     val imgUrl: String? = null,
     val translationIds: Set<Int>
 ): Parcelable {
+    /**
+     * MutableSet of words translations
+     */
     @IgnoredOnParcel
     private val _translations = mutableSetOf<Word>()
+
+    /**
+     * Casts [_translations] to Set
+     */
     val translations: Set<Word>
         get() = _translations
 
+    /**
+     * Add single word translation for current word
+     */
     fun addTranslation(t: Word) {
         _translations.add(t)
     }
 
+    /**
+     * Add set of words to [_translations] set
+     */
     fun addTranslations(ts: Set<Word>) {
         _translations.addAll(ts)
     }
 
+    /**
+     * Check if [translations] set contains [word]
+     */
     fun isTranslation(word: Word): Boolean {
         return translations.contains(word)
     }
 
-    fun isTranslation(string: String): Boolean {
+    /**
+     * Check if [translations] set contains [word] string
+     */
+    fun isTranslation(word: String): Boolean {
         translations.map {
-            if(it.text.toLowerCase(Locale.ROOT) == string.toLowerCase(Locale.ROOT))
+            if(it.text.toLowerCase(Locale.ROOT) == word.toLowerCase(Locale.ROOT))
                 return true
         }
         return false
     }
 
+    /**
+     * Return [translations] set count
+     */
     fun translationCount(lang: String): Int {
         return translations.filter { it.lang == lang }.count()
     }

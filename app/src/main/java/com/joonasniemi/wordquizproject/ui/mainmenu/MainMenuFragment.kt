@@ -22,8 +22,19 @@ import com.joonasniemi.wordquizproject.ui.SharedViewModelFactory
 import java.util.*
 
 class MainMenuFragment : Fragment() {
+    /**
+     * Layouts bindings
+     */
     private lateinit var binding: FragmentMainMenuBinding
+
+    /**
+     * Creates viewModel for fragment
+     */
     private val mainMenuViewModel: MainMenuViewModel by viewModels()
+
+    /**
+     * Gets sharedViewModel from activityViewModels
+     */
     private val sharedViewModel: SharedViewModel by activityViewModels {
         SharedViewModelFactory(requireActivity().application)
     }
@@ -37,6 +48,10 @@ class MainMenuFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = mainMenuViewModel
 
+        /**
+         * If user in [sharedViewModel] is null then play and stats buttons are not enabled
+         * and reminderText is visible
+         */
         sharedViewModel.user.observe(viewLifecycleOwner, {
             mainMenuViewModel.statusReady()
             if(it == null) {
@@ -75,11 +90,17 @@ class MainMenuFragment : Fragment() {
             }
         }
 
+        /**
+         * Stats button onClickListener
+         */
         binding.statsButton.setOnClickListener {
             findNavController()
                 .navigate(MainMenuFragmentDirections.actionMainMenuFragmentToStatsFragment())
         }
 
+        /**
+         * Settings button onClickListener
+         */
         binding.settingsButton.setOnClickListener {
             findNavController()
                 .navigate(MainMenuFragmentDirections.actionMainMenuFragmentToSettingsFragment())

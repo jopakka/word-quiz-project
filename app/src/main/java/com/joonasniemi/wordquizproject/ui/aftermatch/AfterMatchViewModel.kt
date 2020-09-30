@@ -23,6 +23,9 @@ class AfterMatchViewModel : ViewModel() {
         Quiz.resetGame()
     }
 
+    /**
+     * Return rating value depending how good user did
+     */
     private fun rating(): Int {
         return when {
             corrects == 0 -> 0

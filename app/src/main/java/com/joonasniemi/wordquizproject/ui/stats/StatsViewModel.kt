@@ -31,6 +31,9 @@ class StatsViewModel(context: Context): ViewModel() {
         _status.value = Status.LOADING
     }
 
+    /**
+     * Counts how many time user has guessed every word from [language] to [answerLanguage]
+     */
     fun initGuessedWords(language: String, answerLanguage: String){
         viewModelScope.launch {
             try {
@@ -45,6 +48,9 @@ class StatsViewModel(context: Context): ViewModel() {
     }
 }
 
+/**
+ * ViewModelFactory for statsViewModel to pass arguments
+ */
 class StatsViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
 
     @Suppress("unchecked_cast")

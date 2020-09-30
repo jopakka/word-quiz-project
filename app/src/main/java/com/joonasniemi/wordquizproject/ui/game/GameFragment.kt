@@ -22,7 +22,9 @@ import com.joonasniemi.wordquizproject.databinding.FragmentGameBinding
 import com.joonasniemi.wordquizproject.game.Quiz
 
 class GameFragment : Fragment() {
-
+    /**
+     * Layouts bindings
+     */
     private lateinit var binding: FragmentGameBinding
 
     /**
@@ -49,6 +51,9 @@ class GameFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Set necessary listeners for binding objects
+     */
     private fun setListeners() {
         binding.submitButton.setOnClickListener {
             val checkedId = binding.answerRadioGroup.checkedRadioButtonId
@@ -70,7 +75,11 @@ class GameFragment : Fragment() {
             }
         }
 
-        binding.answerRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+        /**
+         * Sets selected radio button textColor to white and elevates view.
+         * Sets other radio buttons text color to normal and lower elevation
+         */
+        binding.answerRadioGroup.setOnCheckedChangeListener { group, _ ->
             group.forEach {
                 when((it as RadioButton).isChecked){
                     true -> {
@@ -86,6 +95,10 @@ class GameFragment : Fragment() {
         }
     }
 
+    /**
+     * Uses Quit objects nextQuestion function to check if there is more questions
+     * if not then navigate to after match screen
+     */
     private fun nextQuestion(){
         if (Quiz.nextQuestion()) {
             binding.answerRadioGroup.clearCheck()

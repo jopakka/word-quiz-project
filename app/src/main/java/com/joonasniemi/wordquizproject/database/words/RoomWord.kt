@@ -8,6 +8,9 @@ package com.joonasniemi.wordquizproject.database.words
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 
+/**
+ * Word class for room database
+ */
 @Entity(tableName = "words_table", primaryKeys = ["id", "language", "answer_language"])
 data class RoomWord(
     val id: Int,

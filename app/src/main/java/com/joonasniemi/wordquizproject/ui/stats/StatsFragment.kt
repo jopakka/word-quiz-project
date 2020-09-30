@@ -19,11 +19,21 @@ import com.joonasniemi.wordquizproject.ui.SharedViewModelFactory
 import com.joonasniemi.wordquizproject.ui.Status
 
 class StatsFragment : Fragment() {
+    /**
+     * Layouts bindings
+     */
     private lateinit var binding: FragmentStatsBinding
 
+    /**
+     * Creates viewModel for fragment
+     */
     private val statsViewModel: StatsViewModel by viewModels {
         StatsViewModelFactory(requireActivity().application)
     }
+
+    /**
+     * Gets sharedViewModel from activityViewModels
+     */
     private val sharedViewModel: SharedViewModel by activityViewModels {
         SharedViewModelFactory(requireActivity().application)
     }
@@ -35,6 +45,15 @@ class StatsFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = statsViewModel
 
+        setAdapter()
+
+        return binding.root
+    }
+
+    /**
+     * Sets word recycler view adapter ready
+     */
+    private fun setAdapter(){
         val adapter = WordListAdapter()
 
         var userAnswerLanguage = ""
@@ -59,7 +78,5 @@ class StatsFragment : Fragment() {
                 this.adapter = adapter
             }
         })
-
-        return binding.root
     }
 }

@@ -20,6 +20,9 @@ import com.joonasniemi.wordquizproject.database.words.RoomWord
 import com.joonasniemi.wordquizproject.network.Word
 import java.util.*
 
+/**
+ * Adapter for stats menu recyclerView
+ */
 class WordListAdapter :
     RecyclerView.Adapter<WordListAdapter.WordViewHolder>() {
 
@@ -68,6 +71,12 @@ class WordListAdapter :
             bindWikipedia(wikipedia, word.wiki)
             bindImage(imageView, word.imgUrl)
 
+            /**
+             * Sets texts for single item in recyclerView
+             *
+             * If user has guessed word right then word has checkMark and green color
+             * else it has X and red color
+             */
             when(val roomWord = guessedWords.firstOrNull { word.isTranslation(it.text) }){
                 null -> {
                     guessesText.text = itemView.context.getString(R.string.guesses, 0)

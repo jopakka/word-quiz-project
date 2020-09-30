@@ -9,6 +9,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/**
+ * User class for room database
+ */
 @Entity(tableName = "user")
 data class User(
     val language: String,

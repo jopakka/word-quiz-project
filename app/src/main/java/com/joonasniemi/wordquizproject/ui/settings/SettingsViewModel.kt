@@ -11,18 +11,24 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.joonasniemi.wordquizproject.database.user.User
 import com.joonasniemi.wordquizproject.database.user.UserDatabase
+import com.joonasniemi.wordquizproject.database.user.UserDatabaseDao
 import com.joonasniemi.wordquizproject.ui.Status
 import kotlinx.coroutines.launch
 import kotlin.Exception
 
-class SettingsViewModel(application: Application) : ViewModel() {
+class SettingsViewModel(private val userDatabase: UserDatabaseDao) : ViewModel() {
     companion object {
         private const val TAG = "SettingsViewModel"
     }
 
-    private val userDatabase = UserDatabase.getInstance(application).userDatabaseDao
-
+    /**
+     * Holds selected language spinner value
+     */
     val selectedLanguage = MutableLiveData<String>()
+
+    /**
+     * Holds selected answer language spinner value
+     */
     val selectedAnswerLanguage = MutableLiveData<String>()
 
     private val _status = MutableLiveData<Status>()
@@ -41,6 +47,10 @@ class SettingsViewModel(application: Application) : ViewModel() {
         _status.value = Status.ERROR
     }
 
+    /**
+     * Tries to insert user to database if not exist.
+     * Else updates users languages
+     */
     fun insert(user: User) {
         statusLoading()
         viewModelScope.launch {
@@ -65,12 +75,15 @@ class SettingsViewModel(application: Application) : ViewModel() {
     }
 }
 
-class SettingsViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
+/**
+ * ViewModelFactory for settingsViewModel to pass arguments
+ */
+class SettingsViewModelFactory(private val userDatabase: UserDatabaseDao) : ViewModelProvider.Factory {
 
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SettingsViewModel::class.java))
-            return SettingsViewModel(application) as T
+            return SettingsViewModel(userDatabase) as T
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

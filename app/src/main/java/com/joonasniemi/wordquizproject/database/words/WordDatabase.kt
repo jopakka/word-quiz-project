@@ -18,6 +18,9 @@ abstract class WordDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: WordDatabase? = null
 
+        /**
+         * Returns current instance or gets new, if there isn't any
+         */
         fun getInstance(context: Context): WordDatabase {
             synchronized(this){
                 var instance = INSTANCE
