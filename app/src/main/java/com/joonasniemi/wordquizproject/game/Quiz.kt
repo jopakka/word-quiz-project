@@ -5,13 +5,11 @@
 
 package com.joonasniemi.wordquizproject.game
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.joonasniemi.wordquizproject.network.Word
 
 object Quiz {
-    private const val TAG = "Quiz"
 
     private val words = mutableListOf<Word>()
     val maxQuestions: Int

@@ -17,7 +17,6 @@
     <string name="stats">Stats</string>
     <string name="save">Save</string>
     <string name="main_menu">Main menu</string>
-    <string name="restart">Restart</string>
 
     <string name="correct_none">Aww too bad</string>
     <string name="correct_under_half">You did OK</string>

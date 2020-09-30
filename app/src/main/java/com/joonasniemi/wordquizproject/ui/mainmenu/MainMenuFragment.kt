@@ -6,23 +6,20 @@
 package com.joonasniemi.wordquizproject.ui.mainmenu
 
 import android.os.Bundle
-import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import com.joonasniemi.wordquizproject.R
 import com.joonasniemi.wordquizproject.databinding.FragmentMainMenuBinding
 import com.joonasniemi.wordquizproject.game.Quiz
 import com.joonasniemi.wordquizproject.network.Word
 import com.joonasniemi.wordquizproject.ui.SharedViewModel
 import com.joonasniemi.wordquizproject.ui.SharedViewModelFactory
-import com.joonasniemi.wordquizproject.utils.GameArguments
 import java.util.*
-import kotlin.properties.Delegates
 
 class MainMenuFragment : Fragment() {
     private lateinit var binding: FragmentMainMenuBinding

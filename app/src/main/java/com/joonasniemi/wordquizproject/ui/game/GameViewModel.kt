@@ -6,16 +6,14 @@
 package com.joonasniemi.wordquizproject.ui.game
 
 import android.util.Log
-import androidx.lifecycle.*
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.joonasniemi.wordquizproject.database.user.UserDatabaseDao
 import com.joonasniemi.wordquizproject.database.words.RoomWord
 import com.joonasniemi.wordquizproject.database.words.WordDatabaseDao
 import com.joonasniemi.wordquizproject.game.Quiz
-import com.joonasniemi.wordquizproject.network.Word
-import com.joonasniemi.wordquizproject.utils.AfterMatchArguments
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
 
 class GameViewModel(private val wordDatabase: WordDatabaseDao, private val userDatabase: UserDatabaseDao) : ViewModel() {
     companion object {

@@ -5,11 +5,9 @@
 
 package com.joonasniemi.wordquizproject
 
-import android.content.DialogInterface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.joonasniemi.wordquizproject.game.Quiz
 
 class MainActivity : AppCompatActivity() {
