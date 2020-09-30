@@ -55,7 +55,6 @@ class MainMenuFragment : Fragment() {
         sharedViewModel.user.observe(viewLifecycleOwner, {
             mainMenuViewModel.statusReady()
             if(it == null) {
-                // TODO("Inform user that languages needs to set")
                 binding.playButton.isEnabled = false
                 binding.statsButton.isEnabled = false
                 binding.languageReminderText.visibility = View.VISIBLE
