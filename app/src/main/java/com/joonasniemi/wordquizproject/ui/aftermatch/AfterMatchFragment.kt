@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.joonasniemi.wordquizproject.databinding.FragmentAfterMatchBinding
 import com.joonasniemi.wordquizproject.game.Quiz
 import com.joonasniemi.wordquizproject.utils.AfterMatchArguments
@@ -27,6 +28,14 @@ class AfterMatchFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        setListeners()
+
         return binding.root
+    }
+
+    private fun setListeners(){
+        binding.mainMenuButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 }

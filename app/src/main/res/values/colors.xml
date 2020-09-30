@@ -5,7 +5,10 @@
   -->
 
 <resources>
-    <color name="colorPrimary">#4AA32F</color>
-    <color name="colorPrimaryDark">#80F05E</color>
-    <color name="colorAccent">#7576F0</color>
+    <color name="colorPrimary">#3EE054</color>
+    <color name="colorPrimaryDark">#1B942B</color>
+    <color name="colorAccent">#9339c1</color>
+    <color name="windowBackground">#EEEEEE</color>
+    <color name="textPrimary">#DE000000</color>
+    <color name="textWhite">#FFFFFF</color>
 </resources>

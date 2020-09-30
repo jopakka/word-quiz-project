@@ -5,12 +5,14 @@
 
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:textColor">@color/textPrimary</item>
     </style>
 
     <style name="DefaultTextStyle">
@@ -18,15 +20,16 @@
     </style>
     
     <style name="ButtonStyle" parent="AppTheme">
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">32sp</item>
         <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/textWhite</item>
     </style>
 
     <style name="BigTextStyle">
-        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/quicksand_light</item>
         <item name="android:textSize">36sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
     </style>
     
     <style name="CustomRadioButtonStyle">

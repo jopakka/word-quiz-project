@@ -82,11 +82,11 @@ class GameFragment : Fragment() {
             group.forEach {
                 when((it as RadioButton).isChecked){
                     true -> {
-                        it.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.primary_text_dark))
-                        it.translationZ = 4f
+                        it.setTextColor(ContextCompat.getColor(requireContext(), R.color.textWhite))
+                        it.translationZ = 8f
                     }
                     false -> {
-                        it.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.primary_text_light))
+                        it.setTextColor(ContextCompat.getColor(requireContext(), R.color.textPrimary))
                         it.translationZ = 0f
                     }
                 }

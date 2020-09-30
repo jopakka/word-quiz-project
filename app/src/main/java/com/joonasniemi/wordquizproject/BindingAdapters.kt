@@ -65,21 +65,13 @@ fun bindImage(imageView: ImageView, imgUrl: String?){
     } ?: imageView.setImageDrawable(ContextCompat.getDrawable(imageView.context, R.drawable.questionmark))
 }
 
-@BindingAdapter("afterMatchTitle", "maxWords", requireAll = true)
-fun bindAfterMatchTitle(textView: TextView, corrects: Int, max: Int){
-    when {
-        corrects == 0 -> {
-            textView.text = textView.context.getString(R.string.correct_none)
-        }
-        corrects > 0 && corrects <= max / 2 -> {
-            textView.text = textView.context.getString(R.string.correct_under_half)
-        }
-        corrects > max / 2 && corrects < max -> {
-            textView.text = textView.context.getString(R.string.correct_over_half)
-        }
-        corrects == max -> {
-            textView.text = textView.context.getString(R.string.correct_all)
-        }
+@BindingAdapter("afterMatchTitle",)
+fun bindAfterMatchTitle(textView: TextView, rating: Int){
+    when(rating) {
+        0 -> textView.text = textView.context.getString(R.string.correct_none)
+        1 -> textView.text = textView.context.getString(R.string.correct_under_half)
+        2 -> textView.text = textView.context.getString(R.string.correct_over_half)
+        3 -> textView.text = textView.context.getString(R.string.correct_all)
     }
 }
 
@@ -95,6 +87,16 @@ fun bindAfterMatchText(textView: TextView, corrects: Int, max: Int){
         else -> {
             textView.text = textView.context.getString(R.string.correct_text_some, corrects, max)
         }
+    }
+}
+
+@BindingAdapter("afterMatchRating")
+fun bindAfterMatchRating(imageView: ImageView, rating: Int) {
+    when(rating){
+        0 -> imageView.setImageDrawable(ContextCompat.getDrawable(imageView.context, R.drawable.smiley_bad))
+        1 -> imageView.setImageDrawable(ContextCompat.getDrawable(imageView.context, R.drawable.smiley_ok))
+        2 -> imageView.setImageDrawable(ContextCompat.getDrawable(imageView.context, R.drawable.smiley_good))
+        3 -> imageView.setImageDrawable(ContextCompat.getDrawable(imageView.context, R.drawable.smiley_excelent))
     }
 }
 

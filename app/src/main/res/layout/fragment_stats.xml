@@ -18,17 +18,30 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/title2"
+            style="@style/BigTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/big_margin"
+            android:layout_marginTop="@dimen/big_margin"
+            android:layout_marginEnd="@dimen/big_margin"
+            android:text="@string/stats"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/total_guesses_text"
             style="@style/DefaultTextStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/big_margin"
-            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/big_margin"
             android:layout_marginEnd="@dimen/big_margin"
-            app:statTexts="@{viewModel.totalGuesses}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title2"
+            app:statTexts="@{viewModel.totalGuesses}"
             tools:text="@string/total_guesses" />
 
         <TextView
@@ -36,12 +49,10 @@
             style="@style/DefaultTextStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/big_margin"
-            android:layout_marginEnd="@dimen/big_margin"
-            app:statTexts="@{viewModel.rightGuesses}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/total_guesses_text"
+            app:layout_constraintStart_toStartOf="@+id/total_guesses_text"
             app:layout_constraintTop_toBottomOf="@+id/total_guesses_text"
+            app:statTexts="@{viewModel.rightGuesses}"
             tools:text="@string/total_right_guesses" />
 
         <TextView
@@ -49,27 +60,24 @@
             style="@style/DefaultTextStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/big_margin"
-            android:layout_marginEnd="@dimen/big_margin"
-            app:statTexts="@{viewModel.wordCount}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/total_guesses_text"
+            app:layout_constraintStart_toStartOf="@+id/total_guesses_text"
             app:layout_constraintTop_toBottomOf="@+id/total_right_guesses_text"
+            app:statTexts="@{viewModel.wordCount}"
             tools:text="@string/total_words" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/words_recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="@dimen/normal_margin"
-            android:layout_marginTop="@dimen/very_big_margin"
+            android:layout_marginTop="@dimen/big_margin"
             android:layout_marginEnd="@dimen/normal_margin"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/total_guesses_text"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/total_guesses_text"
             app:layout_constraintTop_toBottomOf="@+id/total_words_text"
-            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/word_recycler_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
