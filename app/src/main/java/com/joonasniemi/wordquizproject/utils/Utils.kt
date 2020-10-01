@@ -24,6 +24,7 @@ object Utils {
     /**
      * Check if phone has WIFI or cellular network on.
      * Copy/paste code from https://stackoverflow.com/a/53532456
+     * Why change it if it works
      */
     fun isConnected(context: Context): Boolean{
         var result = false
