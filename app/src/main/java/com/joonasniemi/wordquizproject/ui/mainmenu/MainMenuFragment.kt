@@ -9,17 +9,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
+import com.joonasniemi.wordquizproject.R
 import com.joonasniemi.wordquizproject.databinding.FragmentMainMenuBinding
 import com.joonasniemi.wordquizproject.game.Quiz
 import com.joonasniemi.wordquizproject.network.Word
 import com.joonasniemi.wordquizproject.ui.SharedViewModel
 import com.joonasniemi.wordquizproject.ui.SharedViewModelFactory
+import com.joonasniemi.wordquizproject.ui.Status
 import java.util.*
+import kotlin.system.exitProcess
 
 class MainMenuFragment : Fragment() {
     /**
@@ -48,6 +53,13 @@ class MainMenuFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = mainMenuViewModel
 
+        setObservers()
+        setListeners()
+
+        return binding.root
+    }
+
+    private fun setObservers(){
         /**
          * If user in [sharedViewModel] is null then play and stats buttons are not enabled
          * and reminderText is visible
@@ -65,9 +77,17 @@ class MainMenuFragment : Fragment() {
             }
         })
 
-        setListeners()
-
-        return binding.root
+        sharedViewModel.status.observe(viewLifecycleOwner){
+            if(it == Status.ERROR){
+                AlertDialog.Builder(requireContext())
+                    .setCancelable(false)
+                    .setTitle(R.string.no_internet_title)
+                    .setMessage(R.string.no_internet_text)
+                    .setPositiveButton(R.string.ok) { _, _ ->
+                        exitProcess(0)
+                    }.create().show()
+            }
+        }
     }
 
     /**

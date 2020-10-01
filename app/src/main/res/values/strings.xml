@@ -17,6 +17,10 @@
     <string name="stats">Stats</string>
     <string name="save">Save</string>
     <string name="main_menu">Main menu</string>
+    <string name="ok">OK</string>
+
+    <string name="no_internet_title">No internet connection</string>
+    <string name="no_internet_text">Make sure that you are connected to internet, then try again.</string>
 
     <string name="correct_none">Aww too bad</string>
     <string name="correct_under_half">You did OK</string>
