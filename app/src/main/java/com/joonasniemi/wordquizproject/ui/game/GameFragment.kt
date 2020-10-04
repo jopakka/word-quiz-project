@@ -44,7 +44,7 @@ class GameFragment : Fragment() {
         binding = FragmentGameBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.quiz = Quiz
-        Quiz.setQuestion()
+        viewModel.setQuestion()
 
         setListeners()
 
